@@ -1,0 +1,2221 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Boy | Official Site</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Cpath d=%27M50 5C30 26 14 43 14 65a36 30 0 0 0 72 0C86 43 69 22 50 5Z%27 fill=%27%23111111%27 stroke=%27%23c8102e%27 stroke-width=%274%27/%3E%3Cpath d=%27M50 23C37 40 34 49 34 64a16 16 0 0 0 32 0c0-11-7-26-16-41Z%27 fill=%27%23e12632%27/%3E%3C/svg%3E">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pbBlack: '#070707',
+                        pbDark: '#0E0E0E',
+                        pbCard: '#151515',
+                        pbSurface: '#1C1C1C',
+                        pbBorder: 'rgba(255, 255, 255, 0.08)',
+                        pbRed: '#C8102E',
+                        pbRedGlow: '#C8102E',
+                        pbRed: '#c8102e',
+                        pbRedGlow: '#e33a45',
+                        pbSilver: '#A0A0A0'
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    },
+                    boxShadow: {
+                        'glow-red': '0 0 35px rgba(200, 16, 46, 0.4)',
+                        'glow-gold': '0 0 30px rgba(200,16,46,.18)',
+                        'card-dark': '0 20px 45px rgba(0, 0, 0, 0.85)'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #070707;
+            color: #F8F9FA;
+            overflow-x: hidden;
+        }
+        .font-serif-title {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #070707;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #C8102E;
+            border-radius: 4px;
+        }
+        .glass-panel {
+            background: rgba(21, 21, 21, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-panel-hover {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-panel-hover:hover {
+            border-color: rgba(200, 16, 46, 0.5);
+            transform: translateY(-6px);
+            box-shadow: 0 25px 50px rgba(200, 16, 46, 0.2);
+        }
+        .toast-anim {
+            animation: slideInToast 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes slideInToast {
+            from { transform: translateY(100%) scale(0.9); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        @keyframes logoPulse {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(200, 16, 46, 0.6)); }
+            50% { filter: drop-shadow(0 0 22px rgba(225,38,59,0.8)); }
+        }
+        .logo-glow {
+            animation: logoPulse 4s infinite ease-in-out;
+        }
+        .ticker-track {
+            display: flex;
+            width: 200%;
+            animation: marquee 25s linear infinite;
+        }
+        .ticker-track:hover {
+            animation-play-state: paused;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .ripple {
+            position: relative;
+            overflow: hidden;
+        }
+        .ripple::after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+            background-repeat: no-repeat;
+            background-position: 50%;
+            transform: scale(10, 10);
+            opacity: 0;
+            transition: transform .5s, opacity 1s;
+        }
+        .ripple:active::after {
+            transform: scale(0, 0);
+            opacity: .3;
+            transition: 0s;
+        }
+        .frosted-overlay {
+            background: rgba(0,0,0,.58);
+            backdrop-filter: blur(8px) saturate(115%);
+            -webkit-backdrop-filter: blur(8px) saturate(115%);
+            transition: opacity .35s ease;
+        }
+
+        /* Carrello: oscuramento e vetro sfocato del sito sottostante */
+        .frosted-overlay {
+            background: rgba( 3, 3, 3, .58);
+            backdrop-filter: blur(8px) saturate(115%);
+            -webkit-backdrop-filter: blur(8px) saturate(115%);
+            transition: opacity .35s ease, backdrop-filter .35s ease;
+        }
+        body.cart-open { overflow: hidden; }
+        /* Selettore negozio personalizzato: anche il menu aperto mantiene il CSS */
+        .pickup-select-wrap { position:relative; }
+        .pickup-select-icon { position:absolute; left:17px; top:50%; transform:translateY(-50%); color:#e33a45; z-index:4; pointer-events:none; font-size:16px; }
+        .pickup-select-native { position:absolute !important; width:1px !important; height:1px !important; padding:0 !important; margin:-1px !important; overflow:hidden !important; clip:rect(0,0,0,0) !important; white-space:nowrap !important; border:0 !important; }
+        .pickup-select-trigger { width:100%; min-height:72px; display:flex; align-items:center; justify-content:space-between; gap:16px; text-align:left; padding:16px 20px 16px 54px; border:1px solid rgba(200,16,46,.9); border-radius:9px; color:#fff; background:linear-gradient(110deg,#252525,#191919); box-shadow:0 0 0 4px rgba(200,16,46,.10), inset 0 1px 0 rgba(255,255,255,.06); font-size:14px; font-weight:800; transition:border-color .2s,box-shadow .2s,background .2s; }
+        .pickup-select-trigger:hover,.pickup-select-wrap.is-open .pickup-select-trigger { border-color:#e33a45; box-shadow:0 0 0 4px rgba(200,16,46,.14),0 12px 28px rgba(0,0,0,.28); background:#292929; }
+        .pickup-select-trigger:focus-visible { outline:2px solid #e33a45; outline-offset:3px; }
+        .pickup-select-chevron { color:#e33a45; transition:transform .22s; flex:none; }
+        .pickup-select-wrap.is-open .pickup-select-chevron { transform:rotate(180deg); }
+        .pickup-options { position:absolute; z-index:80; top:calc(100% + 9px); left:0; right:0; padding:6px; border:1px solid rgba(200,16,46,.55); border-radius:10px; background:rgba(19,19,19,.98); box-shadow:0 18px 45px rgba(0,0,0,.68),0 0 28px rgba(200,16,46,.13); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); opacity:0; visibility:hidden; transform:translateY(-7px) scale(.985); transform-origin:top; transition:opacity .18s ease,transform .18s ease,visibility .18s; }
+        .pickup-select-wrap.is-open .pickup-options { opacity:1; visibility:visible; transform:translateY(0) scale(1); }
+        .pickup-option { width:100%; display:flex; align-items:center; gap:12px; padding:14px 13px; border:0; border-radius:6px; background:transparent; color:#e8e8e8; text-align:left; font-size:13px; font-weight:650; cursor:pointer; transition:background .18s,color .18s; }
+        .pickup-option i { width:18px; color:#c8102e; text-align:center; }
+        .pickup-option:hover,.pickup-option:focus-visible { outline:none; color:#fff; background:rgba(200,16,46,.22); }
+        .pickup-option[aria-selected="true"] { color:#e33a45; background:rgba(200,16,46,.09); }
+        .pickup-option[aria-selected="true"] i { color:#e33a45; }
+        @media(max-width:520px) { .pickup-select-trigger { min-height:62px; padding:13px 14px 13px 47px; font-size:12px; } .pickup-option { font-size:12px; padding:13px 10px; } }
+
+        /* Dropdown personalizzati per prenotazione e pagamento */
+        .custom-select-wrap { position:relative; width:100%; }
+        .custom-select-native { position:absolute !important; width:1px !important; height:1px !important; padding:0 !important; margin:-1px !important; overflow:hidden !important; clip:rect(0,0,0,0) !important; white-space:nowrap !important; border:0 !important; }
+        .custom-select-trigger { width:100%; min-height:52px; display:flex; align-items:center; justify-content:space-between; gap:14px; padding:13px 16px; border:1px solid rgba(255,255,255,.19); border-radius:5px; background:#171717; color:#fff; text-align:left; font-size:14px; font-weight:600; cursor:pointer; transition:border-color .2s,background .2s,box-shadow .2s; }
+        .custom-select-trigger:hover,.custom-select-wrap.is-open .custom-select-trigger { border-color:#c8102e; background:#202020; box-shadow:0 0 0 3px rgba(200,16,46,.13); }
+        .custom-select-trigger:focus-visible { outline:2px solid #c8102e; outline-offset:3px; }
+        .custom-select-trigger .custom-chevron { color:#c8102e; transition:transform .2s; flex:none; }
+        .custom-select-wrap.is-open .custom-chevron { transform:rotate(180deg); }
+        .custom-select-options { position:absolute; z-index:120; top:calc(100% + 7px); left:0; right:0; padding:6px; max-height:230px; overflow-y:auto; border:1px solid rgba(200,16,46,.72); border-radius:6px; background:#111; box-shadow:0 18px 42px rgba(0,0,0,.72); opacity:0; visibility:hidden; transform:translateY(-6px); transition:opacity .18s,transform .18s,visibility .18s; }
+        .custom-select-wrap.is-open .custom-select-options { opacity:1; visibility:visible; transform:translateY(0); }
+        .custom-select-option { display:flex; align-items:center; justify-content:space-between; width:100%; padding:12px 13px; border:0; border-radius:4px; background:transparent; color:#eee; text-align:left; font-size:13px; cursor:pointer; transition:background .16s,color .16s; }
+        .custom-select-option:hover,.custom-select-option:focus-visible { outline:none; color:#fff; background:rgba(200,16,46,.22); }
+        .custom-select-option[aria-selected="true"] { color:#fff; background:#c8102e; font-weight:750; }
+        .custom-select-option[aria-selected="true"]::after { content:"✓"; font-weight:900; }
+        @media(max-width:520px) { .custom-select-trigger { min-height:49px; padding:12px; font-size:12px; } .custom-select-option { padding:12px 10px; font-size:12px; } }
+
+        /* Tendine coordinate con il tema nero, rosso e oro */
+        select, option { color-scheme: dark; }
+        select option { background:#151515; color:#f5f5f5; }
+        .booking-select-wrap { position:relative; }
+        .booking-select {
+            appearance:none; -webkit-appearance:none; cursor:pointer;
+            min-height:52px; padding:14px 44px 14px 16px !important;
+            border:1px solid rgba(255,255,255,.17) !important;
+            border-radius:4px !important;
+            background:linear-gradient(135deg,#111 0%,#1b1b1b 100%) !important;
+            color:#fff !important; transition:border-color .2s, box-shadow .2s, background .2s;
+        }
+        .booking-select-wrap::after {
+            content:""; position:absolute; right:17px; top:50%; width:8px; height:8px;
+            border-right:2px solid #C8102E; border-bottom:2px solid #C8102E;
+            transform:translateY(-70%) rotate(45deg); pointer-events:none;
+        }
+        .booking-select:hover { border-color:rgba(200,16,46,.75) !important; }
+        .booking-select:focus { border-color:#C8102E !important; box-shadow:0 0 0 3px rgba(200,16,46,.18) !important; outline:none; }
+        #book-date-field { color-scheme:dark; min-height:52px; border-radius:4px; background:linear-gradient(135deg,#111,#1b1b1b); }
+        #cust-pay { color-scheme:dark; background:#151515; }
+        .pickup-select option, .booking-select option, #cust-pay option { background:#151515 !important; color:#fff !important; }
+        @media(max-width:520px) { .booking-select { font-size:12px; padding-left:12px !important; } }
+
+        .reveal { opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+        .reveal.is-visible { opacity:1; transform:translateY(0); }
+        button, a, input, select { -webkit-tap-highlight-color:transparent; }
+        input:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible {
+            outline:2px solid rgba(212,175,55,.85); outline-offset:3px;
+        }
+        @media (max-width:640px) {
+            .frosted-overlay { backdrop-filter:blur(5px) saturate(110%); -webkit-backdrop-filter:blur(5px) saturate(110%); }
+            #cart-drawer { width:100%; border-left:0; }
+            #top-store-status { font-size:9px; letter-spacing:.04em; }
+            .pickup-select { font-size:11px !important; }
+        }
+        @media (prefers-reduced-motion:reduce) {
+            *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+            .reveal { opacity:1; transform:none; }
+        }
+
+        /* ===== POLISH PASS: layout, mobile, form controls ===== */
+        :root { color-scheme: dark; }
+        body { background:#080808; }
+        .top-info-bar {
+            background:#101010;
+            border-bottom:1px solid rgba(255,255,255,.055);
+            color:#bdbdbd;
+        }
+        header { background:rgba(8,8,8,.94) !important; border-bottom-color:rgba(255,255,255,.07) !important; }
+        header > div { min-height:82px; }
+        .logo-glow { animation:none; }
+        .logo-glow svg { filter:drop-shadow(0 5px 15px rgba(200,16,46,.18)); }
+        header nav a { letter-spacing:.13em; }
+        #mobile-nav-drawer {
+            padding:24px !important;
+            background:rgba(8,8,8,.985) !important;
+        }
+        #mobile-nav-drawer nav { display:flex; flex-direction:column; gap:12px !important; }
+        #mobile-nav-drawer nav a {
+            text-align:left; padding:17px 18px; border:1px solid rgba(255,255,255,.08);
+            border-radius:8px; background:#121212; font-size:13px; letter-spacing:.12em;
+        }
+        #mobile-nav-drawer nav a:first-child { border-color:rgba(200,16,46,.45); background:rgba(200,16,46,.09); }
+        #mobile-nav-drawer > div:first-child { padding-bottom:20px; }
+        #mobile-nav-drawer > div:last-child { padding-top:20px; }
+        .booking-panel {
+            background:#1b1b1b !important;
+            border:1px solid rgba(255,255,255,.13);
+            border-radius:12px;
+            box-shadow:0 28px 90px rgba(0,0,0,.65);
+            max-height:calc(100dvh - 32px); overflow-y:auto;
+        }
+        #booking-modal { background:rgba(0,0,0,.78) !important; padding:16px; }
+        #booking-modal .booking-panel > div:first-child { border-bottom-color:rgba(255,255,255,.1) !important; }
+        #booking-modal label { color:#bdbdbd !important; font-size:10px; font-weight:800; letter-spacing:.14em; margin-bottom:8px; }
+        #booking-modal input, #booking-modal select {
+            min-height:54px; width:100%; border-radius:7px !important;
+            background:#141414 !important; color:#f7f7f7 !important;
+            border:1px solid rgba(255,255,255,.14) !important;
+            padding:0 16px !important; font-family:Montserrat,sans-serif; font-size:14px;
+            transition:border-color .2s, box-shadow .2s;
+        }
+        #booking-modal input:focus, #booking-modal select:focus {
+            border-color:#C8102E !important; box-shadow:0 0 0 3px rgba(200,16,46,.13) !important; outline:0;
+        }
+        #booking-modal input::placeholder { color:#777 !important; }
+        #booking-modal .booking-select-wrap { position:relative; }
+        #booking-modal .booking-select { appearance:none; -webkit-appearance:none; padding-right:46px !important; }
+        #booking-modal .booking-select-wrap::after {
+            content:""; position:absolute; right:19px; top:50%; width:9px; height:9px;
+            border-right:2px solid #C8102E; border-bottom:2px solid #C8102E;
+            transform:translateY(-70%) rotate(45deg); pointer-events:none;
+        }
+        #booking-modal option, select option { background:#171717 !important; color:#f5f5f5 !important; }
+        .booking-submit { background:#C8102E !important; border-radius:7px; box-shadow:0 10px 28px rgba(200,16,46,.2); }
+        .booking-submit:hover { background:#a90d26 !important; transform:translateY(-1px); }
+        .booking-select-wrap select, .pickup-select { color-scheme:dark; }
+        .pickup-select { border-radius:7px !important; background:#171717 !important; }
+        select:focus { outline:none; }
+        @media (max-width: 640px) {
+            .top-info-bar { padding:9px 15px; font-size:9px; letter-spacing:.1em; }
+            header > div { min-height:68px !important; height:68px !important; padding-left:16px !important; padding-right:16px !important; }
+            header a.group { gap:9px !important; }
+            header a.group svg { width:38px !important; height:38px !important; }
+            header a.group .text-2xl { font-size:19px !important; letter-spacing:.12em !important; }
+            header a.group .text-\[9px\] { font-size:7px !important; letter-spacing:.2em !important; }
+            header .flex.items-center.gap-4.lg\:hidden { gap:9px !important; }
+            header .flex.items-center.gap-4.lg\:hidden button { width:40px; height:40px; padding:0 !important; border-radius:8px !important; }
+            #mobile-nav-drawer { padding:20px !important; }
+            #mobile-nav-drawer nav a { padding:15px 16px; font-size:12px; }
+            #booking-modal { align-items:flex-end !important; padding:10px !important; }
+            #booking-modal .booking-panel { padding:22px 18px !important; border-radius:14px 14px 10px 10px; max-height:calc(100dvh - 20px); }
+            #booking-modal form { gap:13px !important; }
+            #booking-modal form .grid { gap:10px !important; }
+            #booking-modal input, #booking-modal select { min-height:49px; font-size:12px; padding-left:12px !important; }
+            #booking-modal h3 { font-size:25px !important; }
+        }
+        @media (max-width:380px) {
+            #booking-modal form .grid { grid-template-columns:1fr !important; }
+            #booking-modal .booking-panel { padding:20px 15px !important; }
+        }
+        @media (hover:none) {
+            .glass-panel-hover:hover { transform:none; box-shadow:none; }
+        }
+
+
+        /* FINAL HOME REFINEMENT — shared desktop/mobile visual language */
+        :root { --pb-glass:rgba(22,22,22,.72); --pb-glass-line:rgba(255,255,255,.13); }
+        header {
+            background:rgba(8,8,8,.72)!important;
+            -webkit-backdrop-filter:blur(22px) saturate(145%)!important;
+            backdrop-filter:blur(22px) saturate(145%)!important;
+            border-bottom:1px solid rgba(255,255,255,.10)!important;
+            box-shadow:0 10px 35px rgba(0,0,0,.22);
+        }
+        header .logo-glow { display:flex; align-items:center; justify-content:center; }
+        header .logo-glow svg { width:46px;height:46px; }
+        #mobile-nav-drawer {
+            inset-block:12px!important; right:12px!important; left:auto!important;
+            width:min(390px,calc(100vw - 24px))!important;
+            height:calc(100dvh - 24px)!important;
+            padding:26px!important;
+            border:1px solid rgba(255,255,255,.18);
+            border-radius:26px;
+            background:linear-gradient(145deg,rgba(35,35,35,.82),rgba(10,10,10,.88))!important;
+            -webkit-backdrop-filter:blur(34px) saturate(160%);
+            backdrop-filter:blur(34px) saturate(160%);
+            box-shadow:0 25px 90px rgba(0,0,0,.68),inset 0 1px 0 rgba(255,255,255,.12),0 0 45px rgba(200,16,46,.10);
+            transition:transform .42s cubic-bezier(.2,.8,.2,1)!important;
+            overflow-y:auto;
+        }
+        #mobile-nav-drawer::before {
+            content:"";position:absolute;inset:0 auto 0 0;width:1px;
+            background:linear-gradient(180deg,transparent,rgba(200,16,46,.8),rgba(255,255,255,.25),transparent);
+            pointer-events:none;
+        }
+        #mobile-nav-drawer nav { display:flex;flex-direction:column;gap:10px!important;text-align:left!important; }
+        #mobile-nav-drawer nav a {
+            display:flex;align-items:center;min-height:56px;padding:0 17px!important;
+            border:1px solid rgba(255,255,255,.09)!important;border-radius:14px!important;
+            background:rgba(255,255,255,.045)!important;color:#e7e7e7!important;
+            font-size:12px!important;letter-spacing:.16em!important;
+            transition:background .2s,border-color .2s,transform .2s,color .2s;
+        }
+        #mobile-nav-drawer nav a:hover,#mobile-nav-drawer nav a:focus-visible {
+            background:rgba(200,16,46,.16)!important;border-color:rgba(200,16,46,.55)!important;
+            color:#fff!important;transform:translateX(3px);
+        }
+        #mobile-nav-drawer nav a:first-child {
+            background:rgba(200,16,46,.14)!important;border-color:rgba(200,16,46,.42)!important;color:#fff!important;
+        }
+        #mobile-nav-drawer > div:first-child { padding-bottom:22px;border-color:rgba(255,255,255,.12)!important; }
+        #mobile-nav-drawer > div:last-child { padding-top:22px;border-color:rgba(255,255,255,.12)!important; }
+        #mobile-nav-drawer > div:last-child button {
+            border-radius:14px!important;background:linear-gradient(135deg,#d71938,#a90e28)!important;
+            color:#fff!important;box-shadow:0 10px 28px rgba(200,16,46,.25);
+        }
+        #mobile-nav-drawer > div:last-child a { color:#ddd!important; }
+        .glass-panel {
+            background:linear-gradient(145deg,rgba(32,32,32,.72),rgba(13,13,13,.76))!important;
+            border:1px solid rgba(255,255,255,.12);
+            -webkit-backdrop-filter:blur(18px) saturate(135%);
+            backdrop-filter:blur(18px) saturate(135%);
+            box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 18px 48px rgba(0,0,0,.20);
+        }
+        .top-info-bar { max-width:none!important;padding-left:max(24px,calc((100vw - 1280px)/2))!important;padding-right:max(24px,calc((100vw - 1280px)/2))!important; }
+        @media(max-width:640px) {
+            header > div { min-height:68px!important;height:68px!important; }
+            header .logo-glow svg { width:40px;height:40px; }
+            .top-info-bar { padding-left:14px!important;padding-right:14px!important; }
+            main section > .max-w-7xl { padding-left:20px!important;padding-right:20px!important; }
+            main section { scroll-margin-top:76px; }
+            #mobile-nav-drawer { padding:22px!important; }
+        }
+        @media(min-width:641px) and (max-width:1023px) {
+            main section > .max-w-7xl { padding-left:28px!important;padding-right:28px!important; }
+        }
+        @media(prefers-reduced-motion:reduce) {
+            #mobile-nav-drawer { transition:none!important; }
+        }
+
+
+        /* BRAND SYSTEM + TEXT-ONLY MOBILE SIDEBAR */
+        .pb-brand-logo { display:block; width:190px; height:auto; overflow:visible; }
+        header .pb-brand-logo { width:190px; }
+        footer .pb-brand-logo { width:176px; }
+        .drawer-brand { display:flex; align-items:center; min-height:64px; }
+        .drawer-brand .pb-brand-logo { width:190px; }
+        #mobile-nav-drawer {
+            border:0!important; outline:0!important; border-radius:0!important;
+            background:rgba(8,8,8,.96)!important;
+            box-shadow:none!important;
+            -webkit-backdrop-filter:blur(22px)!important; backdrop-filter:blur(22px)!important;
+            padding:30px 34px!important;
+        }
+        #mobile-nav-drawer::before { display:none!important; }
+        #mobile-nav-drawer > div:first-child,
+        #mobile-nav-drawer > div:last-child {
+            border:0!important; padding-top:0!important; padding-bottom:0!important;
+        }
+        #mobile-nav-drawer nav { gap:25px!important; }
+        #mobile-nav-drawer nav a {
+            display:block!important; min-height:0!important; padding:4px 0!important;
+            border:0!important; border-radius:0!important; background:transparent!important;
+            box-shadow:none!important; color:#aaa!important; font-size:15px!important;
+            font-weight:800!important; letter-spacing:.19em!important;
+            transition:color .2s ease, transform .2s ease!important;
+        }
+        #mobile-nav-drawer nav a:first-child { border:0!important; background:transparent!important; color:#fff!important; }
+        #mobile-nav-drawer nav a:hover,
+        #mobile-nav-drawer nav a:focus-visible { border:0!important; background:transparent!important; color:#e33a45!important; transform:translateX(5px)!important; outline:0!important; }
+        #mobile-nav-drawer > div:last-child button {
+            width:auto!important; padding:8px 0!important; border:0!important; border-radius:0!important;
+            background:transparent!important; box-shadow:none!important; color:#e33a45!important;
+            text-align:left!important; font-size:11px!important; letter-spacing:.16em!important;
+        }
+        #mobile-nav-drawer > div:first-child > button { border:0!important; background:transparent!important; box-shadow:none!important; }
+        @media(max-width:640px) {
+            header .pb-brand-logo { width:158px; }
+            .drawer-brand .pb-brand-logo { width:172px; }
+            footer .pb-brand-logo { width:168px; }
+            #mobile-nav-drawer { padding:25px 26px!important; }
+        }
+
+
+        /* FINAL BRAND + LEFT-SIDE DRAWER */
+        #mobile-nav-drawer {
+            left:12px!important;
+            right:auto!important;
+            transform:translateX(calc(-100% - 24px));
+            border:0!important;
+            border-radius:0!important;
+            background:rgba(8,8,8,.96)!important;
+            box-shadow:none!important;
+        }
+        #mobile-nav-drawer.is-open { transform:translateX(0)!important; }
+        #mobile-nav-drawer::before { display:none!important; }
+        .pb-brand-logo { width:210px; height:auto; }
+        header .pb-brand-logo { width:205px; }
+        footer .pb-brand-logo { width:180px; }
+        .drawer-brand .pb-brand-logo { width:190px; }
+        @media(max-width:640px) {
+            #mobile-nav-drawer { left:12px!important; right:auto!important; padding:25px 26px!important; }
+            header .pb-brand-logo { width:166px; }
+            .drawer-brand .pb-brand-logo { width:174px; }
+            footer .pb-brand-logo { width:166px; }
+        }
+\n    
+        /* PIZZA BOY — refreshed larger wordmark */
+        .pb-brand-logo { display:block; width:230px; height:auto; overflow:visible; }
+        header .pb-brand-logo { width:292px!important; max-width:34vw; }
+        .drawer-brand .pb-brand-logo { width:245px!important; max-width:100%; }
+        footer .pb-brand-logo { width:218px!important; }
+        header > div { min-height:104px!important; height:104px!important; }
+        .logo-glow { filter:drop-shadow(0 4px 15px rgba(190,20,38,.18)); }
+        @media(max-width:1023px) {
+          header > div { min-height:82px!important; height:82px!important; }
+          header .pb-brand-logo { width:242px!important; max-width:52vw; }
+        }
+        @media(max-width:640px) {
+          header > div { min-height:76px!important; height:76px!important; }
+          header .pb-brand-logo { width:218px!important; max-width:58vw; }
+          .drawer-brand .pb-brand-logo { width:220px!important; }
+          footer .pb-brand-logo { width:190px!important; }
+        }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+
+<style id="pizzaboy-final-mobile-brand">
+:root{--pb-gold:#e1263b!important;--about-gold:#e1263b!important;--op-gold:#e1263b!important}
+html,body{overflow-x:clip!important}
+header{border-bottom-color:rgba(225,38,59,.7)!important}
+.about-kicker{color:#fff!important}
+.about-kicker-line,.about-section-line{background:#e1263b!important}
+.about-page [class*="gold"],.about-page [class*="Gold"]{color:#fff!important;border-color:#e1263b!important}
+.order-page [class*="gold"],.order-page [class*="Gold"]{color:#fff!important;border-color:#e1263b!important}
+input,select,textarea,.reservation-form input,.reservation-form select,.reservation-form textarea,
+.form-field input,.form-field select,.form-field textarea{border-color:#c8102e!important;color:#fff!important;background-color:#171719!important}
+select{color-scheme:dark!important;appearance:none!important;-webkit-appearance:none!important;background-color:#171719!important}
+select option{background:#171719!important;color:#fff!important}
+@media(max-width:767px){
+ main section:first-child{min-height:0!important}
+ main .grid,main [class*="grid-cols-"]{grid-template-columns:minmax(0,1fr)!important}
+ .about-hero,.order-hero{min-height:0!important}
+ .about-title{font-size:clamp(48px,14vw,76px)!important}
+ input,select,textarea{font-size:16px!important;min-height:54px!important}
+}
+</style>
+
+</head>
+<body class="bg-pbBlack text-pbWhite selection:bg-pbRed selection:text-white relative">
+
+    <canvas id="emberCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
+
+    <header class="sticky top-0 z-40 bg-pbBlack/90 backdrop-blur-xl border-b border-white/10 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
+            
+            <a href="index.html" class="flex items-center gap-3.5 group">
+                <div class="logo-glow"><svg class="pb-brand-logo" viewBox="0 0 440 100" role="img" aria-label="Pizza Boy" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="pbMark" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ef5362"/><stop offset="1" stop-color="#a90020"/></linearGradient></defs>
+<circle cx="49" cy="50" r="39" fill="none" stroke="#c8102e" stroke-width="2.5"/>
+<circle cx="49" cy="50" r="32" fill="#151313" stroke="rgba(255,255,255,.22)" stroke-width="1"/>
+<path d="M27 65 48 25 70 65 49 58Z" fill="url(#pbMark)" stroke="#fff" stroke-opacity=".85" stroke-width="1.5" stroke-linejoin="round"/>
+<circle cx="46" cy="48" r="2.6" fill="#fff"/><circle cx="57" cy="59" r="2.4" fill="#fff"/>
+<path d="M34 70h30" stroke="#c8102e" stroke-width="2" stroke-linecap="round"/>
+<text x="103" y="48" fill="#f7f2ef" font-family="Cormorant Garamond,Georgia,serif" font-size="43" font-weight="700" letter-spacing="2.5">PIZZA</text>
+<text x="105" y="79" fill="#c8102e" font-family="Cormorant Garamond,Georgia,serif" font-size="29" font-weight="700" letter-spacing="7">BOY</text>
+<path d="M205 68h30" stroke="#c8102e" stroke-width="1.5"/><text x="245" y="72" fill="#aaa3a1" font-family="DM Sans,Arial,sans-serif" font-size="9" font-weight="600" letter-spacing="3">PIZZERIA</text>
+</svg></div>
+            </a>
+
+            <nav class="hidden lg:flex items-center gap-10 font-extrabold text-xs tracking-widest uppercase">
+                <a href="index.html" class="text-pbRed border-b-2 border-pbRed pb-1 transition-all">Home</a>
+                <a href="menu.html" class="text-pbSilver hover:text-white transition-colors">Menu</a>
+                <a href="prenota.html" class="text-pbSilver hover:text-white transition-colors">Ordina Online</a>
+                <a href="chi-siamo.html" class="text-pbSilver hover:text-white transition-colors">Chi Siamo</a>
+            </nav>
+
+            <div class="hidden lg:flex items-center gap-5">
+                <button onclick="openBookingModal()" class="text-xs uppercase tracking-widest font-extrabold text-white hover:text-white border border-pbRed/40 hover:border-pbRed transition-all px-5 py-3 rounded-sm hover:shadow-glow-red">
+                    <i class="fa-solid fa-calendar-check mr-2"></i>Prenota un tavolo
+                </button>
+
+                <button onclick="toggleCartDrawer()" class="ripple bg-pbRed hover:bg-pbRedGlow text-white font-extrabold px-6 py-3 rounded-sm text-xs uppercase tracking-widest transition-all duration-300 shadow-glow-red flex items-center gap-3">
+                    <i class="fa-solid fa-bag-shopping text-sm"></i>
+                    <span>Carrello</span>
+                    <span id="header-cart-badge" class="bg-pbRed text-pbBlack font-black text-[10px] w-5 h-5 rounded-full flex items-center justify-center">0</span>
+                </button>
+            </div>
+
+            <div class="flex items-center gap-4 lg:hidden">
+                <button onclick="toggleCartDrawer()" aria-label="Apri carrello" class="bg-pbRed text-white p-3 rounded-sm relative">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span id="mobile-cart-badge" class="bg-pbRed text-pbBlack font-black text-[9px] w-4.5 h-4.5 rounded-full flex items-center justify-center absolute -top-1 -right-1">0</span>
+                </button>
+                <button onclick="toggleMobileNav()" aria-label="Menu Mobile" class="bg-pbCard border border-white/15 text-white w-11 h-11 rounded-sm flex items-center justify-center text-xl focus:outline-none hover:border-pbRed">
+                    <i id="mobile-nav-icon" class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div id="mobile-nav-drawer" class="fixed inset-y-3 left-3 right-auto z-[70] w-[min(390px,calc(100vw-24px))] -translate-x-[calc(100%+24px)] lg:hidden flex flex-col justify-between p-7">
+        <div class="flex justify-between items-center border-b border-white/10 pb-6">
+            <div class="drawer-brand"><svg class="pb-brand-logo" viewBox="0 0 440 100" role="img" aria-label="Pizza Boy" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="pbMark" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ef5362"/><stop offset="1" stop-color="#a90020"/></linearGradient></defs>
+<circle cx="49" cy="50" r="39" fill="none" stroke="#c8102e" stroke-width="2.5"/>
+<circle cx="49" cy="50" r="32" fill="#151313" stroke="rgba(255,255,255,.22)" stroke-width="1"/>
+<path d="M27 65 48 25 70 65 49 58Z" fill="url(#pbMark)" stroke="#fff" stroke-opacity=".85" stroke-width="1.5" stroke-linejoin="round"/>
+<circle cx="46" cy="48" r="2.6" fill="#fff"/><circle cx="57" cy="59" r="2.4" fill="#fff"/>
+<path d="M34 70h30" stroke="#c8102e" stroke-width="2" stroke-linecap="round"/>
+<text x="103" y="48" fill="#f7f2ef" font-family="Cormorant Garamond,Georgia,serif" font-size="43" font-weight="700" letter-spacing="2.5">PIZZA</text>
+<text x="105" y="79" fill="#c8102e" font-family="Cormorant Garamond,Georgia,serif" font-size="29" font-weight="700" letter-spacing="7">BOY</text>
+<path d="M205 68h30" stroke="#c8102e" stroke-width="1.5"/><text x="245" y="72" fill="#aaa3a1" font-family="DM Sans,Arial,sans-serif" font-size="9" font-weight="600" letter-spacing="3">PIZZERIA</text>
+</svg></div>
+            <button type="button" onclick="toggleMobileNav()" class="mobile-drawer-close" aria-label="Chiudi menu"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+        </div>
+
+        <nav class="mobile-drawer-links" aria-label="Navigazione mobile">
+            <a href="index.html" onclick="toggleMobileNav()">Home Page</a>
+            <a href="menu.html" onclick="toggleMobileNav()">Menu Pizze</a>
+            <a href="prenota.html" onclick="toggleMobileNav()">Ordina Online</a>
+            <a href="#prenota-tavolo" onclick="openBookingModal(); toggleMobileNav(); return false;">Prenota Tavolo</a>
+            <a href="chi-siamo.html" onclick="toggleMobileNav()">Chi Siamo</a>
+        </nav>
+    </div>
+
+    <main class="relative z-10">
+
+        <section class="relative min-h-[92vh] flex items-center justify-center py-20 overflow-hidden border-b border-white/10">
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2000')] bg-cover bg-center opacity-25 scale-105 transition-transform duration-1000"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-pbBlack via-pbBlack/85 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-pbBlack via-pbBlack/75 to-transparent"></div>
+
+            <div class="max-w-7xl mx-auto px-6 relative z-10 w-full">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-14 items-center">
+                    
+                    <div class="lg:col-span-7 space-y-8 text-left">
+                        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.06] font-serif-title uppercase text-white">
+                            L'Eccellenza Della <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-pbRed via-pbRedGlow to-pbRedGlow italic font-normal">Pizza Contemporanea.</span>
+                        </h1>
+
+                        <p class="text-pbSilver text-sm sm:text-base max-w-xl font-normal leading-relaxed">
+                            Impasti ad alta idratazione, pomodoro San Marzano DOP dell'Agro Sarnese-Nocerino e Mozzarella di Bufala Campana. Forno a legna a 450°C.
+                        </p>
+
+                        <div class="glass-panel p-6 sm:p-7 rounded-md max-w-xl space-y-4 border border-white/15">
+                            <div class="flex items-center gap-6 border-b border-white/10 pb-4 text-xs font-extrabold tracking-widest uppercase">
+                                <button id="hero-tab-delivery" onclick="setOrderMode('delivery')" class="text-pbRed border-b-2 border-pbRed pb-1 flex items-center gap-2">
+                                    <i class="fa-solid fa-motorcycle"></i> Consegna a Domicilio
+                                </button>
+                                <button id="hero-tab-pickup" onclick="setOrderMode('pickup')" class="text-pbSilver hover:text-white pb-1 flex items-center gap-2">
+                                    <i class="fa-solid fa-store"></i> Ritiro In Pizzeria
+                                </button>
+                            </div>
+
+                            <div id="address-input-container" class="relative">
+                                <input type="text" id="street-search-input" placeholder="Via (es. Via Roma)" autocomplete="address-line1" class="w-full bg-pbBlack border border-white/20 text-white placeholder-pbSilver/50 px-4 py-3.5 rounded-sm text-xs font-medium focus:outline-none focus:border-pbRed transition-all">
+                                <input type="text" id="delivery-house-number" required placeholder="Numero civico (obbligatorio, es. 12/A)" aria-label="Numero civico obbligatorio" autocomplete="address-line2" class="mt-3 w-full bg-pbBlack border border-white/20 text-white placeholder-pbSilver/50 px-4 py-3.5 rounded-sm text-xs font-medium focus:outline-none focus:border-pbRed transition-all">
+                                <div id="street-suggestions" class="absolute top-full left-0 right-0 bg-[#141414] border border-white/15 rounded-b-sm shadow-2xl z-50 hidden max-h-48 overflow-y-auto"></div>
+                            </div>
+
+                            <div id="pickup-select-container" class="relative hidden pickup-select-wrap">
+                                <i class="fa-solid fa-store pickup-select-icon" aria-hidden="true"></i>
+                                <select id="pickup-store-select" class="pickup-select-native" tabindex="-1" aria-hidden="true">
+                                    <option value="centro">Pizza Boy · Centro Storico (Via Roma 120)</option>
+                                    <option value="navigli">Pizza Boy · Navigli (Ripa di Porta Ticinese 42)</option>
+                                    <option value="eur">Pizza Boy · Porta Romana (Corso Lodi 15)</option>
+                                </select>
+                                <button type="button" id="pickup-select-trigger" class="pickup-select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="pickup-store-options">
+                                    <span id="pickup-selected-label">Pizza Boy · Centro Storico (Via Roma 120)</span>
+                                    <i class="fa-solid fa-chevron-down pickup-select-chevron" aria-hidden="true"></i>
+                                </button>
+                                <div id="pickup-store-options" class="pickup-options" role="listbox" aria-label="Scegli la pizzeria">
+                                    <button type="button" class="pickup-option" role="option" data-value="centro" aria-selected="true"><i class="fa-solid fa-location-dot"></i><span>Centro Storico <small class="block text-white/45 font-normal mt-1">Via Roma 120</small></span></button>
+                                    <button type="button" class="pickup-option" role="option" data-value="navigli" aria-selected="false"><i class="fa-solid fa-location-dot"></i><span>Navigli <small class="block text-white/45 font-normal mt-1">Ripa di Porta Ticinese 42</small></span></button>
+                                    <button type="button" class="pickup-option" role="option" data-value="eur" aria-selected="false"><i class="fa-solid fa-location-dot"></i><span>Porta Romana <small class="block text-white/45 font-normal mt-1">Corso Lodi 15</small></span></button>
+                                </div>
+                            </div>
+
+                            <button onclick="checkDeliveryAvailability()" class="ripple w-full bg-pbRed hover:bg-pbRedGlow text-white font-black py-3.5 rounded-sm text-xs uppercase tracking-widest shadow-glow-red transition-all">
+                                Verifica Copertura &bull; Inizia Ordine
+                            </button>
+
+                            <div id="coverage-result" class="hidden text-xs font-semibold pt-1 flex items-center gap-2 text-emerald-400">
+                                <i class="fa-solid fa-circle-check text-sm"></i>
+                                <span id="coverage-text">Servizio attivo! Tempo stimato: 25-35 minuti.</span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-6 pt-2 text-xs font-bold tracking-wider text-pbSilver uppercase">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-fire text-pbRed"></i> Forno a Legna 450°C</span>
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-award text-white"></i> Prodotti DOP & IGP</span>
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-truck-fast text-pbRed"></i> Consegna Espressa</span>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="relative w-full max-w-md">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-pbRed to-pbRed rounded-lg blur-lg opacity-40 animate-pulse"></div>
+                            
+                            <div class="relative bg-pbCard border border-white/15 rounded-md overflow-hidden shadow-card-dark">
+                                <div class="relative h-80 overflow-hidden group">
+                                    <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=800" alt="Gran Boy Contemporanea" class="w-full h-full object-cover filter brightness-90 group-hover:scale-110 group-hover:brightness-100 transition-all duration-700">
+                                    <span class="absolute top-4 left-4 bg-pbRed text-white text-[10px] font-black px-3.5 py-1 uppercase tracking-widest rounded-sm shadow-md">PIZZA SIGNATURE</span>
+                                </div>
+                                <div class="p-7 space-y-4">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <span class="text-[10px] font-black uppercase tracking-widest text-white">SPECIALITÀ BOY</span>
+                                            <h3 class="text-2xl font-bold uppercase tracking-tight text-white font-serif-title mt-0.5">Gran Boy Contemporanea</h3>
+                                        </div>
+                                        <span class="text-2xl font-black text-white font-serif-title">&euro; 14,50</span>
+                                    </div>
+                                    <p class="text-pbSilver text-xs leading-relaxed">
+                                        Fior di latte di Agerola, stracciatella di bufala, prosciutto crudo di Parma 24 mesi, pesto di pistacchio di Bronte DOP e basilico fresco.
+                                    </p>
+                                    <button onclick="addToCart(3, 'Gran Boy Gourmet', 14.50, 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=600')" class="ripple w-full bg-pbRed hover:bg-pbRedGlow text-white font-black py-3.5 text-xs uppercase tracking-widest transition-all duration-300 shadow-glow-red">
+                                        + Ordina Subito
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-pbRed/90 border-y border-pbRed/30 py-3.5 overflow-hidden text-white font-black text-xs uppercase tracking-[0.25em]">
+            <div class="ticker-track flex items-center gap-12 whitespace-nowrap">
+                <span><i class="fa-solid fa-certificate text-white mr-2"></i> 100% INGREDIENTI DOP E IGP</span>
+                <span>&bull;</span>
+                <span><i class="fa-solid fa-fire text-white mr-2"></i> FORNO A LEGNA A 450°C</span>
+                <span>&bull;</span>
+                <span><i class="fa-solid fa-truck-fast text-white mr-2"></i> CONSEGNA TERMICA ESPRESSA</span>
+                <span>&bull;</span>
+                <span><i class="fa-solid fa-certificate text-white mr-2"></i> 100% INGREDIENTI DOP E IGP</span>
+                <span>&bull;</span>
+                <span><i class="fa-solid fa-fire text-white mr-2"></i> FORNO A LEGNA A 450°C</span>
+                <span>&bull;</span>
+                <span><i class="fa-solid fa-truck-fast text-white mr-2"></i> CONSEGNA TERMICA ESPRESSA</span>
+            </div>
+        </section>
+
+        <section class="py-24 bg-pbDark border-b border-white/10 relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-14 items-center">
+                    
+                    <div class="lg:col-span-6 space-y-7">
+                        <span class="text-white text-xs font-extrabold uppercase tracking-[0.3em] flex items-center gap-2">
+                            <span class="w-8 h-0.5 bg-pbRed"></span> LA NOSTRA ARTIGIANALITÀ
+                        </span>
+                        <h2 class="text-3xl sm:text-5xl font-extrabold uppercase font-serif-title text-white leading-tight">
+                            Tradizione Napoletana, <br><span class="text-pbRed italic font-normal">Visione Futura.</span>
+                        </h2>
+                        <p class="text-pbSilver text-xs sm:text-sm leading-relaxed">
+                            Pizza Boy unisce la sacralità dell'arte pizzaiola partenopea con le tecniche contemporanee di fermentazione. Selezioniamo farine di qualità superiore macinate a pietra, pomodoro San Marzano DOP e latticini freschi lavorati giornalmente.
+                        </p>
+                        
+                        <div class="grid grid-cols-3 gap-6 pt-4 border-t border-white/10">
+                            <div>
+                                <span class="text-3xl sm:text-4xl font-black text-white font-serif-title">48H</span>
+                                <p class="text-[11px] text-pbSilver uppercase tracking-wider font-bold mt-1">Fermentazione</p>
+                            </div>
+                            <div>
+                                <span class="text-3xl sm:text-4xl font-black text-pbRed font-serif-title">100%</span>
+                                <p class="text-[11px] text-pbSilver uppercase tracking-wider font-bold mt-1">DOP Italiani</p>
+                            </div>
+                            <div>
+                                <span class="text-3xl sm:text-4xl font-black text-white font-serif-title">4.9&starf;</span>
+                                <p class="text-[11px] text-pbSilver uppercase tracking-wider font-bold mt-1">1200+ Recensioni</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-2">
+                            <a href="chi-siamo.html" class="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-white border-b-2 border-pbRed pb-1 hover:text-white hover:border-pbRed transition-colors">
+                                Scopri La Storia Di Pizza Boy <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-6 grid grid-cols-2 gap-4">
+                        <div class="space-y-4">
+                            <div class="overflow-hidden rounded-sm border border-white/10">
+                                <img src="https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?q=80&w=600" alt="Impasto Steso" class="w-full h-64 object-cover filter brightness-90 hover:scale-105 transition-all duration-500">
+                            </div>
+                            <div class="overflow-hidden rounded-sm border border-white/10">
+                                <img src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?q=80&w=600" alt="Ingredienti Mozzarella DOP" class="w-full h-44 object-cover filter brightness-90 hover:scale-105 transition-all duration-500">
+                            </div>
+                        </div>
+                        <div class="space-y-4 pt-8">
+                            <div class="overflow-hidden rounded-sm border border-white/10">
+                                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=600" alt="Pizzaiolo al Forno" class="w-full h-44 object-cover filter brightness-90 hover:scale-105 transition-all duration-500">
+                            </div>
+                            <div class="overflow-hidden rounded-sm border border-white/10">
+                                <img src="https://images.unsplash.com/photo-1579751626657-72bc17010498?q=80&w=600" alt="Pizza al Forno a Legna" class="w-full h-64 object-cover filter brightness-90 hover:scale-105 transition-all duration-500">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24 bg-pbBlack border-b border-white/10">
+            <div class="max-w-7xl mx-auto px-6">
+                
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-14 border-b border-white/10 pb-6">
+                    <div>
+                        <span class="text-white text-xs font-bold uppercase tracking-[0.25em]">SELEZIONE D'ECCELLENZA</span>
+                        <h2 class="text-3xl sm:text-5xl font-extrabold uppercase font-serif-title text-white mt-2">Le Pizze In Evidenza</h2>
+                    </div>
+                    
+                    <div class="flex gap-4 mt-6 md:mt-0 overflow-x-auto pb-2 text-xs font-bold uppercase tracking-wider">
+                        <button onclick="filterCategory('all', event)" class="cat-btn active border-b-2 border-pbRed text-white pb-2">Tutte</button>
+                        <button onclick="filterCategory('classiche', event)" class="cat-btn text-pbSilver hover:text-white border-b-2 border-transparent pb-2">Classiche</button>
+                        <button onclick="filterCategory('gourmet', event)" class="cat-btn text-pbSilver hover:text-white border-b-2 border-transparent pb-2">Gourmet</button>
+                        <button onclick="filterCategory('sfizi', event)" class="cat-btn text-pbSilver hover:text-white border-b-2 border-transparent pb-2">Fritti & Sfizi</button>
+                        <button onclick="filterCategory('bevande', event)" class="cat-btn text-pbSilver hover:text-white border-b-2 border-transparent pb-2">Bevande</button>
+                    </div>
+                </div>
+
+                <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                </div>
+
+                <div class="text-center mt-16">
+                    <a href="menu.html" class="ripple inline-block bg-pbRed hover:bg-pbRedGlow text-white font-black px-10 py-4 text-xs uppercase tracking-widest shadow-glow-red transition-all">
+                        Esplora Il Menu Completo
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24 bg-pbDark border-b border-white/10 relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6 relative z-10">
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <span class="text-white text-xs font-extrabold uppercase tracking-[0.3em] flex items-center justify-center gap-2">
+                        <span class="w-8 h-0.5 bg-pbRed"></span> DISPONIBILITÀ & SERVIZIO <span class="w-8 h-0.5 bg-pbRed"></span>
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold uppercase font-serif-title text-white mt-3">Orari Di Apertura & Consegne</h2>
+                    <p class="text-pbSilver text-xs sm:text-sm mt-3">Lavoriamo ogni giorno con forni ad altissima temperatura per garantirti la pizza ideale sia in sala che a casa tua.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                    
+                    <div class="lg:col-span-4 glass-panel p-8 rounded-md border border-white/15 flex flex-col justify-between shadow-card-dark">
+                        <div class="space-y-6">
+                            <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                                <span class="text-xs font-bold uppercase tracking-widest text-pbSilver">Stato Attuale</span>
+                                <div id="live-store-status" class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span> APERTO ORA
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-xl font-bold uppercase font-serif-title text-white">Servizio Espresso</h3>
+                                <p class="text-pbSilver text-xs mt-2 leading-relaxed">Verifica in tempo reale la disponibilità dei nostri pizzaioli e dei riders dedicati.</p>
+                            </div>
+
+                            <div class="space-y-3 pt-2">
+                                <div class="flex items-center gap-3 text-xs text-white">
+                                    <div class="w-8 h-8 rounded-sm bg-pbRed/20 border border-pbRed/40 flex items-center justify-center text-pbRed shrink-0">
+                                        <i class="fa-solid fa-motorcycle"></i>
+                                    </div>
+                                    <div>
+                                        <span class="font-bold block">Consegna a Domicilio</span>
+                                        <span class="text-[11px] text-pbSilver">Media 25 - 35 Minuti</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 text-xs text-white">
+                                    <div class="w-8 h-8 rounded-sm bg-pbRed/20 border border-pbRed/40 flex items-center justify-center text-white shrink-0">
+                                        <i class="fa-solid fa-store"></i>
+                                    </div>
+                                    <div>
+                                        <span class="font-bold block">Ritiro Al Banco</span>
+                                        <span class="text-[11px] text-pbSilver">Pronto in 15 - 20 Minuti</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 pt-6 border-t border-white/10">
+                            <button onclick="openBookingModal()" class="w-full bg-pbRed hover:bg-pbRedBright text-pbBlack font-black py-3.5 rounded-sm text-xs uppercase tracking-widest transition-all">
+                                <i class="fa-solid fa-calendar-check mr-2"></i>Prenota Tavolo Per Stasera
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-8 glass-panel p-8 rounded-md border border-white/15 shadow-card-dark flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+                                <h3 class="text-xl font-bold uppercase font-serif-title text-white">Programmaì Settimanale</h3>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                
+                                <div class="bg-pbBlack/80 p-5 rounded-sm border border-white/10 space-y-3">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-xs font-extrabold uppercase tracking-widest text-white">Lunedì &ndash; Giovedì</span>
+                                        <span class="text-[10px] bg-pbRed/20 text-pbRed font-bold px-2 py-0.5 rounded-xs border border-pbRed/30">CENA</span>
+                                    </div>
+                                    <div class="text-sm font-black text-white font-serif-title flex items-center justify-between">
+                                        <span>18:00 &ndash; 23:30</span>
+                                        <span class="text-xs text-pbSilver font-normal font-sans">Turno Unico</span>
+                                    </div>
+                                    <p class="text-[11px] text-pbSilver">Servizio sala, asporto e delivery senza interruzioni.</p>
+                                </div>
+
+                                <div class="bg-pbBlack/80 p-5 rounded-sm border border-pbRed/30 space-y-3">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-xs font-extrabold uppercase tracking-widest text-white">Venerdì &ndash; Domenica</span>
+                                        <span class="text-[10px] bg-pbRed/20 text-white font-bold px-2 py-0.5 rounded-xs border border-pbRed/30">PRANZO & CENA</span>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <div class="text-xs font-bold text-white flex justify-between">
+                                            <span class="text-pbSilver">Pranzo:</span>
+                                            <span class="text-white font-serif-title text-sm">12:00 &ndash; 15:00</span>
+                                        </div>
+                                        <div class="text-xs font-bold text-white flex justify-between">
+                                            <span class="text-pbSilver">Cena:</span>
+                                            <span class="text-white font-serif-title text-sm">18:00 &ndash; 00:00</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-[11px] text-pbSilver">È consigliata la prenotazione del tavolo durante il weekend.</p>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-pbSilver">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-circle-info text-white"></i>
+                                <span>Chiusura settimanale: <strong>Martedì a Pranzo</strong> (Aperti la sera).</span>
+                            </div>
+                            <a href="tel:+390298765432" class="text-white hover:text-white font-bold uppercase tracking-wider flex items-center gap-1.5">
+                                <i class="fa-solid fa-phone text-pbRed"></i> Info Orari Speciali
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24 bg-pbBlack border-b border-white/10">
+            <div class="max-w-7xl mx-auto px-6">
+                
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <div class="inline-flex items-center gap-1.5 text-white text-xs font-bold uppercase tracking-[0.25em] mb-2">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold uppercase font-serif-title text-white">Esperienze Dei Clienti</h2>
+                    <p class="text-pbSilver text-xs sm:text-sm mt-3">Valutazione media 4.9/5 su oltre 1.200 recensioni verificate a Milano.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <div class="glass-panel p-8 rounded-md space-y-4 border border-white/10">
+                        <div class="flex items-center gap-1 text-white text-xs">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-pbSilver text-xs italic leading-relaxed">
+                            "La vera pizza contemporanea a Milano. Impasto leggerissimo, cornicione pronunciato ed ingredienti di primissima scelta. La Gran Boy è imperdibile!"
+                        </p>
+                        <div class="pt-4 border-t border-white/10 flex items-center gap-3">
+                            <div class="w-9 h-9 bg-pbRed/20 border border-pbRed/40 rounded-full flex items-center justify-center text-pbRed font-bold text-xs">MR</div>
+                            <div>
+                                <h3 class="text-xs font-bold text-white uppercase">Marco R.</h3>
+                                <span class="text-[10px] text-pbSilver">Cliente Verificato</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-8 rounded-md space-y-4 border border-white/10">
+                        <div class="flex items-center gap-1 text-white text-xs">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-pbSilver text-xs italic leading-relaxed">
+                            "Consegna a domicilio rapidissima ed arrivata bollente nel cartone termico. I fritti sono super croccanti e per nulla unti. Bravi!"
+                        </p>
+                        <div class="pt-4 border-t border-white/10 flex items-center gap-3">
+                            <div class="w-9 h-9 bg-pbRed/20 border border-pbRed/40 rounded-full flex items-center justify-center text-white font-bold text-xs">GL</div>
+                            <div>
+                                <h3 class="text-xs font-bold text-white uppercase">Giulia L.</h3>
+                                <span class="text-[10px] text-pbSilver">Cliente Verificato</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-8 rounded-md space-y-4 border border-white/10">
+                        <div class="flex items-center gap-1 text-white text-xs">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-pbSilver text-xs italic leading-relaxed">
+                            "Locale moderno ed elegante con un'atmosfera fantastica. La qualità della mozzarella di bufala e del prosciutto crudo è sopra la media."
+                        </p>
+                        <div class="pt-4 border-t border-white/10 flex items-center gap-3">
+                            <div class="w-9 h-9 bg-pbRed/20 border border-pbRed/40 rounded-full flex items-center justify-center text-pbRed font-bold text-xs">AB</div>
+                            <div>
+                                <h3 class="text-xs font-bold text-white uppercase">Alessandro B.</h3>
+                                <span class="text-[10px] text-pbSilver">Cliente Verificato</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="relative py-20 bg-pbDark border-b border-white/10 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6 relative z-10">
+                <div class="glass-panel p-10 rounded-md border border-pbRed/40 flex flex-col md:flex-row items-center justify-between gap-8 shadow-glow-red">
+                    <div class="space-y-2 text-center md:text-left">
+                        <span class="text-white text-xs font-bold uppercase tracking-[0.25em]">PROMOZIONE ESCLUSIVA</span>
+                        <h3 class="text-2xl sm:text-4xl font-extrabold uppercase font-serif-title text-white">Ricevi Il 10% Di Sconto Sul Primo Ordine</h3>
+                        <p class="text-pbSilver text-xs">Iscriviti alla newsletter per sbloccare il codice voucher <strong class="text-white font-bold">PIZZABOY10</strong>.</p>
+                    </div>
+
+                    <form onsubmit="subscribeNewsletter(event)" class="flex flex-col sm:flex-row gap-3 w-full md:w-auto shrink-0">
+                        <input type="email" id="newsletter-email" required placeholder="La tua email..." class="bg-pbBlack border border-white/20 px-4 py-3.5 rounded-sm text-xs text-white placeholder-pbSilver/50 focus:outline-none focus:border-pbRed min-w-[250px]">
+                        <button type="submit" class="ripple bg-pbRed hover:bg-pbRedBright text-pbBlack font-black px-7 py-3.5 rounded-sm text-xs uppercase tracking-widest transition-all">
+                            Iscriviti Ora
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-pbDark text-white border-t border-white/10 pt-20 pb-10 relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <svg class="pb-brand-logo" viewBox="0 0 440 100" role="img" aria-label="Pizza Boy" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="pbMark" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ef5362"/><stop offset="1" stop-color="#a90020"/></linearGradient></defs>
+<circle cx="49" cy="50" r="39" fill="none" stroke="#c8102e" stroke-width="2.5"/>
+<circle cx="49" cy="50" r="32" fill="#151313" stroke="rgba(255,255,255,.22)" stroke-width="1"/>
+<path d="M27 65 48 25 70 65 49 58Z" fill="url(#pbMark)" stroke="#fff" stroke-opacity=".85" stroke-width="1.5" stroke-linejoin="round"/>
+<circle cx="46" cy="48" r="2.6" fill="#fff"/><circle cx="57" cy="59" r="2.4" fill="#fff"/>
+<path d="M34 70h30" stroke="#c8102e" stroke-width="2" stroke-linecap="round"/>
+<text x="103" y="48" fill="#f7f2ef" font-family="Cormorant Garamond,Georgia,serif" font-size="43" font-weight="700" letter-spacing="2.5">PIZZA</text>
+<text x="105" y="79" fill="#c8102e" font-family="Cormorant Garamond,Georgia,serif" font-size="29" font-weight="700" letter-spacing="7">BOY</text>
+<path d="M205 68h30" stroke="#c8102e" stroke-width="1.5"/><text x="245" y="72" fill="#aaa3a1" font-family="DM Sans,Arial,sans-serif" font-size="9" font-weight="600" letter-spacing="3">PIZZERIA</text>
+</svg>
+                    </div>
+                    <p class="text-pbSilver text-xs leading-relaxed">
+                        Pizzeria contemporanea e laboratorio di fermentazione artigianale a Milano. Eccellenze napoletane e ingredienti DOP selezionati.
+                    </p>
+                </div>
+
+                <div class="footer-quick-nav">
+                    <h4 class="text-xs font-bold uppercase tracking-[0.2em] text-white mb-6">Navigazione Rapida</h4>
+                    <ul class="space-y-3 text-xs text-pbSilver">
+                        <li><a href="index.html" class="hover:text-white transition-colors">Home Page</a></li>
+                        <li><a href="menu.html" class="hover:text-white transition-colors">Menu Pizze</a></li>
+                        <li><a href="ordina.html" class="hover:text-white transition-colors">Ordina Online</a></li>
+                        <li><button onclick="openBookingModal()" class="hover:text-white transition-colors">Prenota Tavolo</button></li>
+                        <li><a href="chi-siamo.html" class="hover:text-white transition-colors">Chi Siamo</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-[0.2em] text-white mb-6">Orari Di Apertura</h4>
+                    <ul class="space-y-3 text-xs text-pbSilver">
+                        <li class="flex justify-between border-b border-white/5 pb-2">
+                            <span>Lun - Gio (Solo Cena)</span>
+                            <span class="text-white font-medium">18:00 - 23:30</span>
+                        </li>
+                        <li class="flex justify-between border-b border-white/5 pb-2">
+                            <span>Ven - Dom (Pranzo)</span>
+                            <span class="text-white font-medium">12:00 - 15:00</span>
+                        </li>
+                        <li class="flex justify-between border-b border-white/5 pb-2">
+                            <span>Ven - Dom (Cena)</span>
+                            <span class="text-white font-medium">18:00 - 00:00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-[0.2em] text-white mb-6">Contatti & Sede</h4>
+                    <ul class="space-y-3 text-xs text-pbSilver">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-location-dot text-pbRed"></i> Via Roma 120, 20121 Milano</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-phone text-pbRed"></i> +39 02 98765432</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-envelope text-pbRed"></i> info@pizzaboy.it</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="border-t border-white/10 pt-8 flex flex-col sm:flex-row justify-between items-center text-[11px] text-pbSilver">
+                <p>&copy; 2026 Pizza Boy Milano S.r.l. Tutti i diritti riservati.</p>
+                <div class="footer-legal-links flex gap-6 mt-4 sm:mt-0 uppercase tracking-widest">
+                    <a href="privacy-policy.html" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="cookie-policy.html" class="hover:text-white transition-colors">Cookie Policy</a>
+                    <a href="termini-servizio.html" class="hover:text-white transition-colors">Termini di Servizio</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="cart-overlay" onclick="toggleCartDrawer()" class="fixed inset-0 frosted-overlay z-[90] hidden opacity-0 transition-opacity duration-500"></div>
+    
+    <aside id="cart-drawer" role="dialog" aria-modal="true" aria-label="Carrello" class="fixed top-0 right-0 h-full w-full sm:w-[440px] bg-pbDark/95 backdrop-blur-2xl border-l border-white/10 z-[100] shadow-2xl transform translate-x-full transition-transform duration-500 ease-in-out flex flex-col">
+        <div class="p-6 border-b border-white/10 flex justify-between items-center bg-pbBlack">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-bag-shopping text-pbRed"></i>
+                <h3 class="text-sm font-bold uppercase tracking-widest text-white">Carrello</h3>
+            </div>
+            <button onclick="toggleCartDrawer()" class="text-pbSilver hover:text-white text-2xl font-light">&times;</button>
+        </div>
+
+        <div id="cart-items-list" class="flex-1 overflow-y-auto p-6 space-y-4">
+        </div>
+
+        <div id="cart-footer-summary" class="p-6 border-t border-white/10 bg-pbBlack space-y-4">
+            <div class="flex justify-between text-xs text-pbSilver uppercase tracking-wider">
+                <span>Subtotale</span>
+                <span id="cart-subtotal-val" class="text-white font-bold">&euro; 0,00</span>
+            </div>
+            <div class="flex justify-between text-xs text-pbSilver uppercase tracking-wider">
+                <span>Sconto Promo</span>
+                <span id="cart-discount-val" class="text-emerald-400 font-bold">&euro; 0,00</span>
+            </div>
+            <div class="flex justify-between text-xs text-pbSilver uppercase tracking-wider">
+                <span>Consegna</span>
+                <span id="cart-delivery-val" class="text-white font-bold">&euro; 3,00</span>
+            </div>
+
+            <div class="flex gap-2 pt-1">
+                <input type="text" id="promo-code-input" placeholder="Codice Promo" class="w-full bg-pbDark border border-white/15 px-3 py-2 rounded-sm text-xs text-white uppercase placeholder-pbSilver/50 focus:outline-none focus:border-pbRed">
+                <button onclick="applyPromoCode()" class="bg-pbRed text-pbBlack font-bold px-4 py-2 text-xs rounded-sm uppercase tracking-wider shrink-0">Applica</button>
+            </div>
+
+            <div class="flex justify-between text-base font-bold uppercase tracking-wider text-white pt-3 border-t border-white/10">
+                <span>Totale</span>
+                <span id="cart-total-val" class="text-white font-serif-title text-xl">&euro; 3,00</span>
+            </div>
+
+            <button onclick="showCheckoutStep()" class="ripple w-full bg-pbRed hover:bg-pbRedGlow text-white font-black py-4 text-xs uppercase tracking-widest shadow-glow-red transition-all">
+                Procedi Al Checkout
+            </button>
+        </div>
+
+        <div id="cart-checkout-step" class="hidden flex-1 overflow-y-auto p-6 space-y-5 bg-pbBlack">
+            <button onclick="hideCheckoutStep()" class="text-xs font-bold text-pbSilver hover:text-white uppercase tracking-wider flex items-center gap-2 mb-2">
+                <i class="fa-solid fa-arrow-left"></i> Torna Al Carrello
+            </button>
+            
+            <h4 class="text-sm font-bold uppercase tracking-widest text-white border-b border-white/10 pb-3">Dettagli Di Consegna</h4>
+
+            <form onsubmit="completeOrder(event)" class="space-y-4 text-xs">
+                <div>
+                    <label class="block uppercase tracking-wider text-pbSilver mb-1">Nome & Cognome</label>
+                    <input type="text" required id="cust-name" placeholder="Es. Marco Rossi" class="w-full bg-pbDark border border-white/15 p-3 rounded-sm text-white focus:outline-none focus:border-pbRed">
+                </div>
+                <div>
+                    <label class="block uppercase tracking-wider text-pbSilver mb-1">Telefono</label>
+                    <input type="tel" required id="cust-phone" placeholder="Es. 338 1234567" class="w-full bg-pbDark border border-white/15 p-3 rounded-sm text-white focus:outline-none focus:border-pbRed">
+                </div>
+                <div id="checkout-address-wrap" class="space-y-3">
+                    <div>
+                        <label class="block uppercase tracking-wider text-pbSilver mb-1">Via / Indirizzo</label>
+                        <input type="text" required id="cust-addr" placeholder="Es. Via Dante" autocomplete="address-line1" class="w-full bg-pbDark border border-white/15 p-3 rounded-sm text-white focus:outline-none focus:border-pbRed">
+                    </div>
+                    <div>
+                        <label class="block uppercase tracking-wider text-pbSilver mb-1">Numero civico <span class="text-pbRed">*</span></label>
+                        <input type="text" required id="cust-house-number" placeholder="Es. 14/A" autocomplete="address-line2" class="w-full bg-pbDark border border-white/15 p-3 rounded-sm text-white focus:outline-none focus:border-pbRed">
+                    </div>
+                </div>
+                <div>
+                    <label class="block uppercase tracking-wider text-pbSilver mb-1">Metodo Di Pagamento</label>
+                    <div class="custom-select-wrap">
+                        <select id="cust-pay" class="custom-select-native">
+                            <option value="card">Carta di Credito alla Consegna</option>
+                            <option value="cash">Contanti alla Consegna</option>
+                            <option value="applepay">Apple Pay / Google Pay</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="ripple w-full bg-pbRed hover:bg-pbRedGlow text-white font-black py-4 text-xs uppercase tracking-widest shadow-glow-red transition-all mt-4">
+                    Conferma Ordine Ora
+                </button>
+            </form>
+        </div>
+    </aside>
+
+    <div id="booking-modal" class="booking-modal fixed inset-0 z-[110] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="booking-title">
+        <div class="booking-panel relative w-full max-w-[760px]">
+            <div class="booking-hero">
+                <div class="booking-emblem"><i class="fa-solid fa-pizza-slice"></i></div>
+                <button type="button" class="booking-close" onclick="closeBookingModal()" aria-label="Chiudi prenotazione"><i class="fa-solid fa-xmark"></i></button>
+                <div class="booking-kicker"><span></span> PIZZA BOY · PRENOTAZIONI</div>
+                <h3 id="booking-title">Riserva il tuo <em>tavolo.</em></h3>
+                <p>La serata perfetta comincia da qui. Scegli quando venire e in quanti sarete.</p>
+            </div>
+            <form onsubmit="submitTableBooking(event)" class="booking-form">
+                <div class="booking-section-title"><span>01</span><div><strong>Quando ci vieni a trovare?</strong><small>Seleziona data e orario</small></div></div>
+                <div class="booking-fields booking-fields-two">
+                    <div class="booking-field">
+                        <label for="book-date-field">Data <b>*</b></label>
+                        <div class="booking-input-shell"><i class="fa-regular fa-calendar"></i><input type="date" required id="book-date-field"></div>
+                    </div>
+                    <div class="booking-field">
+                        <label for="book-time-field">Orario <b>*</b></label>
+                        <div class="custom-select-wrap booking-custom-select"><select required id="book-time-field" class="custom-select-native">
+                            <option value="19:30">19:30</option><option value="20:15">20:15</option><option value="21:00">21:00</option><option value="21:45">21:45</option>
+                        </select></div>
+                    </div>
+                </div>
+                <div class="booking-divider"></div>
+                <div class="booking-section-title"><span>02</span><div><strong>Per quante persone?</strong><small>Dicci come preparare il tavolo</small></div></div>
+                <div class="booking-fields booking-fields-two">
+                    <div class="booking-field">
+                        <label for="book-guests-field">Numero persone <b>*</b></label>
+                        <div class="custom-select-wrap booking-custom-select"><select required id="book-guests-field" class="custom-select-native">
+                            <option value="2">2 persone</option><option value="3">3 persone</option><option value="4">4 persone</option><option value="5+">5 o più persone</option>
+                        </select></div>
+                    </div>
+                    <div class="booking-field">
+                        <label for="book-name-field">Nome e cognome <b>*</b></label>
+                        <div class="booking-input-shell"><i class="fa-regular fa-user"></i><input type="text" required id="book-name-field" placeholder="Es. Mario Rossi" autocomplete="name"></div>
+                    </div>
+                </div>
+                <div class="booking-fields booking-fields-two booking-contact-fields">
+                    <div class="booking-field">
+                        <label for="book-phone-field">Telefono <b>*</b></label>
+                        <div class="booking-input-shell"><i class="fa-solid fa-phone"></i><input type="tel" required id="book-phone-field" placeholder="Es. 333 1234567" autocomplete="tel"></div>
+                    </div>
+                    <div class="booking-field">
+                        <label for="book-email-field">Email <b>*</b></label>
+                        <div class="booking-input-shell"><i class="fa-regular fa-envelope"></i><input type="email" required id="book-email-field" placeholder="nome@email.it" autocomplete="email"></div>
+                    </div>
+                </div>
+                <p class="booking-required-note"><i class="fa-solid fa-lock"></i> I campi contrassegnati con * sono obbligatori.</p>
+                <button type="submit" class="booking-submit"><span>Richiedi prenotazione</span><i class="fa-solid fa-arrow-right"></i></button>
+                <p class="booking-footnote">Ti aspettiamo da Pizza Boy. <span>Buona pizza, buona compagnia.</span></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="order-success-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[110] hidden flex items-center justify-center p-4">
+        <div class="bg-pbDark border border-emerald-500/40 rounded-md max-w-md w-full p-8 text-center space-y-6 shadow-card-dark">
+            <div class="w-16 h-16 bg-emerald-500/10 border border-emerald-500 text-emerald-400 rounded-full flex items-center justify-center text-2xl mx-auto">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <div>
+                <span class="text-emerald-400 text-[10px] font-bold uppercase tracking-[0.25em]">CONFERMA RICEVUTA</span>
+                <h3 class="text-2xl font-bold uppercase font-serif-title text-white mt-1">Ordine Registrato</h3>
+                <p class="text-pbSilver text-xs mt-2">La tua pizza artigianale entrerà a breve nel forno a legna.</p>
+            </div>
+
+            <div class="bg-pbBlack p-4 rounded-sm border border-white/10 text-left text-xs space-y-2 text-pbSilver">
+                <div class="flex justify-between"><span class="uppercase">Codice Ordine:</span><strong id="succ-code" class="text-white">#PB-1092</strong></div>
+                <div class="flex justify-between"><span class="uppercase">Totale Pagato:</span><strong id="succ-total" class="text-white">&euro; 0.00</strong></div>
+                <div class="flex justify-between"><span class="uppercase">Destinazione:</span><strong id="succ-addr" class="text-white">Via Roma</strong></div>
+            </div>
+
+            <button onclick="closeSuccessModal()" class="ripple w-full bg-pbRed hover:bg-pbRedGlow text-white font-black py-3.5 text-xs uppercase tracking-widest transition-all">
+                Torna Alla Home Page
+            </button>
+        </div>
+    </div>
+
+    <div id="toast-wrapper" class="fixed bottom-6 right-6 z-50 space-y-3 pointer-events-none"></div>
+
+    <script>
+        const productsList = [
+            { id: 1, name: "Margherita S. Marzano DOP", cat: "classiche", price: 8.50, desc: "Pomodoro San Marzano DOP, fior di latte di Agerola, basilico fresco e olio EVO ligure.", img: "https://images.unsplash.com/photo-1604382355076-af4b0eb60143?q=80&w=600" },
+            { id: 2, name: "Diavola Piccante", cat: "classiche", price: 10.50, desc: "Spianata calabra piccante, Nduja artisanale di Spilinga, fior di latte e olio al peperoncino.", img: "https://images.unsplash.com/photo-1628840042765-356cda07504e?q=80&w=600" },
+            { id: 3, name: "Gran Boy Gourmet", cat: "gourmet", price: 14.50, desc: "Fior di latte, stracciatella di bufala, prosciutto di Parma 24 mesi e pesto di pistacchio.", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=600" },
+            { id: 4, name: "Tartufo & Porcini", cat: "gourmet", price: 16.00, desc: "Salsa di tartufo nero di Norcia, funghi porcini trifolati, provola affumicata d'Agerola.", img: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?q=80&w=600" },
+            { id: 5, name: "Pistacchiosa & Mortadella", cat: "gourmet", price: 15.00, desc: "Fior di latte, mortadella di Bologna IGP, granella di pistacchio e burrata pugliese intera.", img: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=600" },
+            { id: 6, name: "Frittatina di Spaghetti", cat: "sfizi", price: 4.50, desc: "Spaghetti di Gragnano, besciamella, carne macinata, piselli e provola impanata e fritta.", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=600" },
+            { id: 7, name: "Arancino Al Ragu DOP", cat: "sfizi", price: 4.00, desc: "Riso allo zafferano, ragù napoletano cotto 8 ore, piselli e cuore di fior di latte filante.", img: "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?q=80&w=600" },
+            { id: 8, name: "Birra Ichnusa Non Filtrata", cat: "bevande", price: 4.50, desc: "Birra artigianale sarda a bassa fermentazione 50cl.", img: "https://images.unsplash.com/photo-1608270586620-248524c67de9?q=80&w=600" }
+        ];
+
+        const milanStreets = [
+            "Via Roma", "Corso Vittorio Emanuele II", "Via Dante", "Via Torino", "Corso Buenos Aires",
+            "Via Montenapoleone", "Via Spiga", "Corso Como", "Via Tortona", "Viale Monza", "Via Padova",
+            "Via Washington", "Viale Campania", "Piazza Duomo", "Corso di Porta Ticinese", "Via Marghera"
+        ];
+
+        let cartItems = JSON.parse(localStorage.getItem('pizzaboy-cart') || '[]');
+        let orderMode = 'delivery';
+        let activeCat = 'all';
+        let discountRatio = 0;
+
+        function init() {
+            renderMenuGrid();
+            updateCartDisplay();
+            initEmberCanvas();
+            updateRealtimeStoreStatus();
+            startLiveClock();
+            setupStreetAutocomplete();
+            initPickupStoreDropdown();
+            initCustomSelects();
+            setOrderMode('delivery');
+            initRevealAnimations();
+
+            const dateInput = document.getElementById('book-date-field');
+            if(dateInput) dateInput.value = new Date().toISOString().split('T')[0];
+        }
+
+        function initPickupStoreDropdown() {
+            const wrap = document.getElementById('pickup-select-container');
+            const nativeSelect = document.getElementById('pickup-store-select');
+            const trigger = document.getElementById('pickup-select-trigger');
+            const label = document.getElementById('pickup-selected-label');
+            const options = Array.from(document.querySelectorAll('#pickup-store-options .pickup-option'));
+            if(!wrap || !nativeSelect || !trigger || !label) return;
+
+            const close = () => {
+                wrap.classList.remove('is-open');
+                trigger.setAttribute('aria-expanded', 'false');
+            };
+            const open = () => {
+                wrap.classList.add('is-open');
+                trigger.setAttribute('aria-expanded', 'true');
+            };
+            trigger.addEventListener('click', () => wrap.classList.contains('is-open') ? close() : open());
+            options.forEach(option => option.addEventListener('click', () => {
+                const value = option.dataset.value;
+                nativeSelect.value = value;
+                label.textContent = option.querySelector('span').innerText.replace(/\n/g, ' · ').replace(/\s+/g, ' ').trim();
+                options.forEach(item => item.setAttribute('aria-selected', String(item === option)));
+                nativeSelect.dispatchEvent(new Event('change', { bubbles:true }));
+                close();
+                trigger.focus();
+            }));
+            document.addEventListener('click', event => { if(!wrap.contains(event.target)) close(); });
+            document.addEventListener('keydown', event => { if(event.key === 'Escape') close(); });
+        }
+
+        function initCustomSelects() {
+            const selects = ['book-time-field', 'book-guests-field', 'cust-pay'];
+            selects.forEach(id => {
+                const select = document.getElementById(id);
+                if(!select || select.dataset.customized === 'true') return;
+                const wrap = select.closest('.custom-select-wrap');
+                if(!wrap) return;
+                select.dataset.customized = 'true';
+                select.classList.add('custom-select-native');
+                const trigger = document.createElement('button');
+                trigger.type = 'button';
+                trigger.className = 'custom-select-trigger';
+                trigger.setAttribute('aria-haspopup', 'listbox');
+                trigger.setAttribute('aria-expanded', 'false');
+                const label = document.createElement('span');
+                label.className = 'custom-select-label';
+                const chevron = document.createElement('i');
+                chevron.className = 'fa-solid fa-chevron-down custom-chevron';
+                chevron.setAttribute('aria-hidden', 'true');
+                trigger.append(label, chevron);
+                const list = document.createElement('div');
+                list.className = 'custom-select-options';
+                list.setAttribute('role', 'listbox');
+                list.id = id + '-options';
+                trigger.setAttribute('aria-controls', list.id);
+                const optionButtons = [];
+                const sync = () => {
+                    const selected = Array.from(select.options).find(o => o.value === select.value);
+                    label.textContent = selected ? selected.textContent.trim() : 'Seleziona';
+                    optionButtons.forEach(btn => btn.setAttribute('aria-selected', String(btn.dataset.value === select.value)));
+                };
+                Array.from(select.options).forEach(option => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'custom-select-option';
+                    btn.setAttribute('role', 'option');
+                    btn.dataset.value = option.value;
+                    btn.textContent = option.textContent.trim();
+                    btn.disabled = option.disabled;
+                    btn.addEventListener('click', () => {
+                        select.value = option.value;
+                        select.dispatchEvent(new Event('change', { bubbles:true }));
+                        sync();
+                        close();
+                        trigger.focus();
+                    });
+                    list.appendChild(btn);
+                    optionButtons.push(btn);
+                });
+                const close = () => { wrap.classList.remove('is-open'); trigger.setAttribute('aria-expanded', 'false'); };
+                const open = () => {
+                    document.querySelectorAll('.custom-select-wrap.is-open').forEach(other => {
+                        other.classList.remove('is-open');
+                        const otherTrigger = other.querySelector('.custom-select-trigger');
+                        if(otherTrigger) otherTrigger.setAttribute('aria-expanded', 'false');
+                    });
+                    wrap.classList.add('is-open');
+                    trigger.setAttribute('aria-expanded', 'true');
+                };
+                trigger.addEventListener('click', () => wrap.classList.contains('is-open') ? close() : open());
+                select.addEventListener('change', sync);
+                wrap.append(trigger, list);
+                sync();
+                document.addEventListener('click', event => { if(!wrap.contains(event.target)) close(); });
+                document.addEventListener('keydown', event => { if(event.key === 'Escape') close(); });
+            });
+        }
+
+        function initRevealAnimations() {
+            const targets = document.querySelectorAll('main section, footer .grid > div, .glass-panel');
+            targets.forEach((el, index) => {
+                if(el.closest('#cart-drawer')) return;
+                el.classList.add('reveal');
+                el.style.transitionDelay = `${Math.min(index % 4, 3) * 70}ms`;
+            });
+            if(!('IntersectionObserver' in window)) {
+                targets.forEach(el => el.classList.add('is-visible'));
+                return;
+            }
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.08, rootMargin: '0px 0px -35px 0px' });
+            targets.forEach(el => observer.observe(el));
+        }
+
+        function startLiveClock() {
+            function updateClock() {
+                const now = new Date();
+                const timeString = now.toTimeString().split(' ')[0];
+                const clockEl = document.getElementById('realtime-clock');
+                if(clockEl) clockEl.textContent = timeString;
+            }
+            updateClock();
+            setInterval(updateClock, 1000);
+            updateRealtimeStoreStatus();
+            setInterval(updateRealtimeStoreStatus, 60000);
+        }
+
+        function updateRealtimeStoreStatus() {
+            const statusElem = document.getElementById('live-store-status');
+            const topStatus = document.getElementById('top-store-status');
+            const topDot = document.getElementById('top-status-dot');
+            const topLabel = document.getElementById('top-status-label');
+            const now = new Date();
+            const day = now.getDay();
+            const currentTime = now.getHours() + (now.getMinutes() / 60);
+
+            // Lun-Gio: 18:00-23:30. Ven-Dom: 12:00-15:00 e 18:00-00:00.
+            const isOpen = (day >= 1 && day <= 4)
+                ? currentTime >= 18 && currentTime < 23.5
+                : ((currentTime >= 12 && currentTime < 15) || (currentTime >= 18 && currentTime < 24));
+
+            if(statusElem) {
+                statusElem.className = `inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider ${isOpen ? 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-400' : 'bg-pbRed/10 border border-pbRed/30 text-pbRed'}`;
+                statusElem.innerHTML = `<span class="w-2.5 h-2.5 rounded-full ${isOpen ? 'bg-emerald-500 animate-pulse' : 'bg-pbRed'}"></span> ${isOpen ? 'APERTO ORA' : 'CHIUSO ORA'}`;
+            }
+            if(topStatus) topStatus.className = `inline-flex items-center gap-1.5 ${isOpen ? 'text-emerald-400' : 'text-pbSilver'}`;
+            if(topDot) topDot.className = `w-2 h-2 rounded-full ${isOpen ? 'bg-emerald-500 animate-pulse' : 'bg-pbRed'}`;
+            if(topLabel) topLabel.textContent = isOpen ? 'FORNO ATTIVO' : 'FORNO SPENTO';
+        }
+
+        function setupStreetAutocomplete() {
+            const input = document.getElementById('street-search-input');
+            const suggestionsBox = document.getElementById('street-suggestions');
+            if(!input || !suggestionsBox) return;
+
+            input.addEventListener('input', function() {
+                const val = this.value.trim().toLowerCase();
+                if(!val) {
+                    suggestionsBox.classList.add('hidden');
+                    suggestionsBox.innerHTML = '';
+                    return;
+                }
+
+                const matches = milanStreets.filter(s => s.toLowerCase().includes(val));
+                if(matches.length > 0) {
+                    suggestionsBox.innerHTML = matches.map(m => `
+                        <div onclick="selectStreet('${m}')" class="px-4 py-2.5 text-xs text-pbSilver hover:bg-pbRed hover:text-white cursor-pointer transition-colors border-b border-white/5 last:border-0">
+                            <i class="fa-solid fa-location-dot mr-2 text-white"></i>${m}
+                        </div>
+                    `).join('');
+                    suggestionsBox.classList.remove('hidden');
+                } else {
+                    suggestionsBox.classList.add('hidden');
+                    suggestionsBox.innerHTML = '';
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                if(!input.contains(e.target) && !suggestionsBox.contains(e.target)) {
+                    suggestionsBox.classList.add('hidden');
+                }
+            });
+        }
+
+        function selectStreet(streetName) {
+            const input = document.getElementById('street-search-input');
+            const suggestionsBox = document.getElementById('street-suggestions');
+            input.value = streetName + ", ";
+            suggestionsBox.classList.add('hidden');
+            input.focus();
+        }
+
+        function initEmberCanvas() {
+            const canvas = document.getElementById('emberCanvas');
+            if(!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            const particles = Array.from({ length: 45 }, () => ({
+                x: Math.random() * width,
+                y: Math.random() * height + height,
+                radius: Math.random() * 2 + 0.5,
+                speedY: Math.random() * 1.2 + 0.3,
+                speedX: (Math.random() - 0.5) * 0.5,
+                alpha: Math.random() * 0.7 + 0.2
+            }));
+
+            function animateEmbers() {
+                ctx.clearRect(0, 0, width, height);
+                particles.forEach(p => {
+                    p.y -= p.speedY;
+                    p.x += p.speedX;
+                    if(p.y < -10) {
+                        p.y = height + 10;
+                        p.x = Math.random() * width;
+                    }
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(200, 16, 46, ${p.alpha})`;
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = '#e33a45';
+                    ctx.fill();
+                });
+                requestAnimationFrame(animateEmbers);
+            }
+            animateEmbers();
+        }
+
+        function renderMenuGrid() {
+            const container = document.getElementById('products-grid');
+            if(!container) return;
+            container.innerHTML = '';
+
+            const list = activeCat === 'all' 
+                ? productsList 
+                : productsList.filter(item => item.cat === activeCat);
+
+            list.forEach(p => {
+                const card = document.createElement('div');
+                card.className = "glass-panel glass-panel-hover rounded-md overflow-hidden flex flex-col justify-between border border-white/10";
+                card.innerHTML = `
+                    <div>
+                        <div class="h-48 overflow-hidden relative group">
+                            <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover filter brightness-90 group-hover:scale-110 group-hover:brightness-100 transition-all duration-500">
+                            <span class="absolute top-3 right-3 bg-pbBlack/80 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 uppercase tracking-widest border border-pbRed/30">${p.cat}</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-base font-bold uppercase tracking-tight text-white font-serif-title">${p.name}</h3>
+                            <p class="text-pbSilver text-xs mt-2 leading-relaxed">${p.desc}</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-white/5 mt-4">
+                        <span class="text-lg font-extrabold text-white font-serif-title">&euro; ${p.price.toFixed(2).replace('.', ',')}</span>
+                        <button onclick="addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${p.price}, '${p.img}')" class="ripple bg-pbRed hover:bg-pbRedGlow text-white px-4 py-2.5 rounded-sm text-xs font-black uppercase tracking-widest transition-all">
+                            + Aggiungi
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterCategory(category, evt) {
+            activeCat = category;
+            document.querySelectorAll('.cat-btn').forEach(b => {
+                b.className = "cat-btn text-pbSilver hover:text-white border-b-2 border-transparent pb-2";
+            });
+            evt.target.className = "cat-btn active border-b-2 border-pbRed text-white pb-2";
+            renderMenuGrid();
+        }
+
+        function addToCart(id, name, price, img) {
+            const found = cartItems.find(i => i.id === id);
+            if(found) {
+                found.qty++;
+            } else {
+                cartItems.push({ id, name, price, img, qty: 1 });
+            }
+            updateCartDisplay();
+            triggerToast(`Aggiunto al carrello: ${name}`);
+        }
+
+        function changeQty(id, delta) {
+            const target = cartItems.find(i => i.id === id);
+            if(!target) return;
+            target.qty += delta;
+            if(target.qty <= 0) {
+                cartItems = cartItems.filter(i => i.id !== id);
+            }
+            updateCartDisplay();
+        }
+
+        function applyPromoCode() {
+            const codeInput = document.getElementById('promo-code-input');
+            if(!codeInput) return;
+            const code = codeInput.value.trim().toUpperCase();
+            if(code === 'PIZZABOY10' || code === 'BOY10') {
+                discountRatio = 0.10;
+                triggerToast("Codice promozionale applicato: Sconto 10%!");
+            } else {
+                discountRatio = 0;
+                triggerToast("Codice promozionale non valido!");
+            }
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            try { localStorage.setItem('pizzaboy-cart', JSON.stringify(cartItems)); } catch(e) {}
+            const listElem = document.getElementById('cart-items-list');
+            const hBadge = document.getElementById('header-cart-badge');
+            const mBadge = document.getElementById('mobile-cart-badge');
+            if(!listElem) return;
+
+            const totalQty = cartItems.reduce((acc, i) => acc + i.qty, 0);
+            if(hBadge) hBadge.textContent = totalQty;
+            if(mBadge) mBadge.textContent = totalQty;
+
+            if(cartItems.length === 0) {
+                listElem.innerHTML = `
+                    <div class="h-64 flex flex-col items-center justify-center text-center text-pbSilver space-y-3">
+                        <i class="fa-solid fa-bag-shopping text-4xl text-white/10"></i>
+                        <p class="text-xs uppercase tracking-widest font-semibold">Il tuo carrello è vuoto</p>
+                    </div>
+                `;
+                document.getElementById('cart-subtotal-val').textContent = "€ 0,00";
+                document.getElementById('cart-discount-val').textContent = "€ 0,00";
+                document.getElementById('cart-total-val').textContent = "€ 0,00";
+                return;
+            }
+
+            listElem.innerHTML = '';
+            let subtotal = 0;
+
+            cartItems.forEach(item => {
+                const lineTotal = item.price * item.qty;
+                subtotal += lineTotal;
+
+                const row = document.createElement('div');
+                row.className = "flex items-center gap-3 bg-pbBlack p-3 rounded-sm border border-white/10";
+                row.innerHTML = `
+                    <img src="${item.img}" alt="${item.name}" class="w-12 h-12 object-cover rounded-sm shrink-0">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-xs font-bold uppercase text-white truncate">${item.name}</h4>
+                        <span class="text-xs text-white font-bold font-serif-title">&euro; ${item.price.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                    <div class="flex items-center gap-2 border border-white/20 p-1 rounded-sm text-xs">
+                        <button onclick="changeQty(${item.id}, -1)" class="w-5 h-5 hover:text-pbRed font-bold">&minus;</button>
+                        <span class="font-bold px-1">${item.qty}</span>
+                        <button onclick="changeQty(${item.id}, 1)" class="w-5 h-5 hover:text-pbRed font-bold">&plus;</button>
+                    </div>
+                `;
+                listElem.appendChild(row);
+            });
+
+            const discountAmount = subtotal * discountRatio;
+            const delFee = orderMode === 'delivery' ? 3.00 : 0.00;
+            const total = Math.max(0, subtotal - discountAmount + delFee);
+
+            document.getElementById('cart-subtotal-val').textContent = `€ ${subtotal.toFixed(2).replace('.', ',')}`;
+            document.getElementById('cart-discount-val').textContent = `- € ${discountAmount.toFixed(2).replace('.', ',')}`;
+            document.getElementById('cart-delivery-val').textContent = orderMode === 'delivery' ? "€ 3,00" : "Gratuito (Ritiro)";
+            document.getElementById('cart-total-val').textContent = `€ ${total.toFixed(2).replace('.', ',')}`;
+        }
+
+        function toggleCartDrawer() {
+            const drawer = document.getElementById('cart-drawer');
+            const overlay = document.getElementById('cart-overlay');
+            if(!drawer || !overlay) return;
+            const isHidden = drawer.classList.contains('translate-x-full');
+
+            if(isHidden) {
+                document.body.classList.add('cart-open');
+                overlay.classList.remove('hidden');
+                setTimeout(() => {
+                    overlay.classList.remove('opacity-0');
+                    drawer.classList.remove('translate-x-full');
+                }, 10);
+            } else {
+                drawer.classList.add('translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                    document.body.classList.remove('cart-open');
+                    hideCheckoutStep();
+                }, 500);
+            }
+        }
+
+        function toggleMobileNav() {
+            const drawer = document.getElementById('mobile-nav-drawer');
+            const icon = document.getElementById('mobile-nav-icon');
+            if(!drawer) return;
+            const isOpen = drawer.classList.contains('is-open');
+
+            if(isOpen) {
+                drawer.classList.remove('is-open');
+                if(icon) icon.className = "fa-solid fa-bars";
+                drawer.setAttribute('aria-hidden', 'true');
+            } else {
+                drawer.classList.add('is-open');
+                if(icon) icon.className = "fa-solid fa-xmark";
+                drawer.setAttribute('aria-hidden', 'false');
+            }
+        }
+
+        function setOrderMode(mode) {
+            orderMode = mode;
+            const tabDel = document.getElementById('hero-tab-delivery');
+            const tabPick = document.getElementById('hero-tab-pickup');
+            const addressCont = document.getElementById('address-input-container');
+            const pickupCont = document.getElementById('pickup-select-container');
+            
+            if(mode === 'delivery') {
+                if(tabDel) tabDel.className = "text-pbRed border-b-2 border-pbRed pb-1 flex items-center gap-2";
+                if(tabPick) tabPick.className = "text-pbSilver hover:text-white pb-1 flex items-center gap-2";
+                if(addressCont) addressCont.classList.remove('hidden');
+                if(pickupCont) pickupCont.classList.add('hidden');
+            } else {
+                if(tabPick) tabPick.className = "text-pbRed border-b-2 border-pbRed pb-1 flex items-center gap-2";
+                if(tabDel) tabDel.className = "text-pbSilver hover:text-white pb-1 flex items-center gap-2";
+                if(addressCont) addressCont.classList.add('hidden');
+                if(pickupCont) pickupCont.classList.remove('hidden');
+            }
+            const addressWrap = document.getElementById('checkout-address-wrap');
+            const addressField = document.getElementById('cust-addr');
+            const houseField = document.getElementById('cust-house-number');
+            if(addressWrap && addressField && houseField) {
+                addressWrap.classList.toggle('hidden', mode !== 'delivery');
+                addressField.required = mode === 'delivery';
+                houseField.required = mode === 'delivery';
+            }
+            const heroHouse = document.getElementById('delivery-house-number');
+            if(heroHouse) heroHouse.required = mode === 'delivery';
+            updateCartDisplay();
+        }
+
+        function checkDeliveryAvailability() {
+            const resultBox = document.getElementById('coverage-result');
+            const textElem = document.getElementById('coverage-text');
+            if(!resultBox || !textElem) return;
+
+            if(orderMode === 'delivery') {
+                const val = document.getElementById('street-search-input').value.trim();
+                const civic = document.getElementById('delivery-house-number').value.trim();
+                if(!val) {
+                    triggerToast("Inserisci la via di consegna.");
+                    document.getElementById('street-search-input').focus();
+                    return;
+                }
+                if(!civic) {
+                    triggerToast("Il numero civico è obbligatorio.");
+                    document.getElementById('delivery-house-number').focus();
+                    return;
+                }
+                textElem.textContent = `Indirizzo: ${val}, ${civic}. Consegna stimata: 25-35 min.`;
+            } else {
+                const storeSelect = document.getElementById('pickup-store-select');
+                const storeName = storeSelect.options[storeSelect.selectedIndex].text;
+                textElem.textContent = `Ritiro disponibile presso ${storeName} entro 20 min.`;
+            }
+
+            resultBox.classList.remove('hidden');
+            triggerToast("Disponibilità verificata con successo!");
+        }
+
+        function showCheckoutStep() {
+            if(cartItems.length === 0) {
+                triggerToast("Aggiungi almeno una pizza per continuare.");
+                return;
+            }
+            document.getElementById('cart-items-list').classList.add('hidden');
+            document.getElementById('cart-footer-summary').classList.add('hidden');
+            document.getElementById('cart-checkout-step').classList.remove('hidden');
+        }
+
+        function hideCheckoutStep() {
+            document.getElementById('cart-items-list').classList.remove('hidden');
+            document.getElementById('cart-footer-summary').classList.remove('hidden');
+            document.getElementById('cart-checkout-step').classList.add('hidden');
+        }
+
+        async function completeOrder(e) {
+            e.preventDefault();
+            const addr=document.getElementById('cust-addr')?.value.trim()||'';
+            const civic=document.getElementById('cust-house-number')?.value.trim()||'';
+            if(orderMode==='delivery'&&!civic){triggerToast('Il numero civico è obbligatorio.');document.getElementById('cust-house-number').focus();return;}
+            if(!window.PizzaBoyCloud?.configured()){triggerToast('Ordini online non attivi: configurazione cloud mancante.');return;}
+            const sub=cartItems.reduce((a,i)=>a+(Number(i.price)*Number(i.qty)),0),disc=sub*discountRatio,total=Math.max(0,sub-disc+(orderMode==='delivery'?3:0));
+            const code='PB-'+Date.now().toString().slice(-7);
+            const order={id:code,code,createdAt:new Date().toISOString(),status:'Nuovo',mode:orderMode,customer:document.getElementById('cust-name')?.value.trim()||'',phone:document.getElementById('cust-phone')?.value.trim()||'',email:document.getElementById('checkout-email')?.value.trim()||'',address:orderMode==='delivery'?`${addr}, ${civic}`:(document.getElementById('pickup-store-select')?.selectedOptions[0]?.text||'Ritiro'),payment:document.getElementById('cust-pay')?.selectedOptions[0]?.text||'',items:cartItems.map(i=>({name:i.name,qty:i.qty,price:i.price})),subtotal:sub,discount:disc,total};
+            try{await window.PizzaBoyCloud.createOrder(order);}catch(err){console.error(err);triggerToast('Non è stato possibile inviare l’ordine. Riprova.');return;}
+            document.getElementById('succ-code').textContent='#'+code;document.getElementById('succ-total').textContent=`€ ${total.toFixed(2).replace('.',',')}`;document.getElementById('succ-addr').textContent=order.address;
+            cartItems=[];discountRatio=0;updateCartDisplay();toggleCartDrawer();document.getElementById('order-success-modal').classList.remove('hidden');
+        }
+
+
+                function closeSuccessModal() {
+            document.getElementById('order-success-modal').classList.add('hidden');
+        }
+
+        function openBookingModal() {
+            document.getElementById('booking-modal').classList.remove('hidden');
+        }
+
+        function closeBookingModal() {
+            document.getElementById('booking-modal').classList.add('hidden');
+        }
+
+        async function submitTableBooking(e) {
+            e.preventDefault();
+            const name=document.getElementById('book-name-field')?.value.trim()||'',date=document.getElementById('book-date-field')?.value||'',time=document.getElementById('book-time-field')?.value||'',guests=document.getElementById('book-guests-field')?.value||'2',phone=document.getElementById('book-phone-field')?.value||'',email=document.getElementById('book-email-field')?.value||'';
+            if(!window.PizzaBoyCloud?.configured()){triggerToast('Prenotazioni online non attive: configurazione cloud mancante.');return;}
+            const booking={id:'PR-'+Date.now().toString().slice(-7),name,date,time,guests,phone,email,notes:'',createdAt:new Date().toISOString(),status:'In attesa'};
+            try{await window.PizzaBoyCloud.createBooking(booking);}catch(err){console.error(err);triggerToast('Invio prenotazione non riuscito. Riprova.');return;}
+            closeBookingModal();triggerToast(`Richiesta inviata per ${name} (${guests} pers.) il ${date} alle ${time}.`);
+        }
+
+                function subscribeNewsletter(e) {
+            e.preventDefault();
+            const email = document.getElementById('newsletter-email').value;
+            triggerToast(`Iscrizione confermata per ${email}! Codice PIZZABOY10 sbloccato.`);
+            document.getElementById('newsletter-email').value = '';
+        }
+
+        function triggerToast(message) {
+            const wrapper = document.getElementById('toast-wrapper');
+            if(!wrapper) return;
+            const toast = document.createElement('div');
+            toast.className = "toast-anim bg-pbDark border border-pbRed text-white px-5 py-3.5 rounded-sm shadow-card-dark text-xs font-semibold flex items-center gap-3 pointer-events-auto min-w-[260px]";
+            toast.innerHTML = `
+                <i class="fa-solid fa-bell text-white"></i>
+                <span>${message}</span>
+            `;
+            wrapper.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3200);
+        }
+
+        // Fallback per eventuali vecchi link Menu non ancora aggiornati.
+        document.addEventListener('click', (event) => {
+            const menuLink = event.target.closest('[data-menu-unavailable="true"]');
+            if (!menuLink) return;
+            event.preventDefault();
+            if (menuLink.closest('#mobile-nav-drawer')) toggleMobileNav();
+            triggerToast('Cannot GET /menu.html');
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if(event.key === 'Escape') {
+                const drawer = document.getElementById('cart-drawer');
+                if(drawer && !drawer.classList.contains('translate-x-full')) toggleCartDrawer();
+                closeBookingModal();
+                closeSuccessModal();
+            }
+        });
+
+        window.onload = init;
+    </script>
+<style>
+
+/* ================= PIZZA BOY — SIGNATURE HOME POLISH ================= */
+:root{
+  --pb-red:#d51d36; --pb-red-hot:#f04445; --pb-gold:#d51d36;
+  --pb-cream:#f6ead7; --pb-muted:#aaa6a2; --pb-line:rgba(255,255,255,.105);
+  --pb-ease:cubic-bezier(.2,.75,.25,1);
+}
+html{scroll-padding-top:110px}
+body{
+  background:
+    radial-gradient(ellipse at 12% 8%,rgba(135,13,30,.13),transparent 32rem),
+    radial-gradient(ellipse at 88% 42%,rgba(200,16,46,.09),transparent 34rem),
+    #080707;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.19;
+  background-image:radial-gradient(rgba(255,255,255,.17) .55px,transparent .7px);
+  background-size:5px 5px;mask-image:linear-gradient(to bottom,black,transparent 78%);
+}
+#emberCanvas{opacity:.32!important;mix-blend-mode:screen}
+header{z-index:60!important;border-bottom-color:rgba(200,16,46,.55)!important}
+header>div{gap:clamp(12px,2vw,30px)!important}
+header .pb-brand-logo{width:clamp(205px,21vw,270px)!important;max-width:29vw}
+header nav{gap:clamp(16px,2.4vw,36px)!important;white-space:nowrap}
+header nav a{
+  position:relative;padding:12px 0!important;font-size:11px!important;
+  letter-spacing:.15em!important;color:#c4bfba!important;
+}
+header nav a::after{
+  content:"";position:absolute;left:0;right:100%;bottom:3px;height:2px;
+  background:linear-gradient(90deg,var(--pb-red),var(--pb-gold));
+  transition:right .35s var(--pb-ease);
+}
+header nav a:hover::after,header nav a.text-pbRed::after{right:0}
+header nav a:hover{color:#fff!important}
+header .logo-glow{filter:drop-shadow(0 7px 18px rgba(213,29,54,.23))}
+header .logo-glow svg{transition:transform .45s var(--pb-ease),filter .45s}
+header .logo-glow:hover svg{transform:translateY(-2px) scale(1.025);filter:drop-shadow(0 8px 22px rgba(213,29,54,.4))}
+header button{white-space:nowrap}
+main section{isolation:isolate}
+main section:not(:first-child){position:relative}
+main section:not(:first-child)::before{
+  content:"";position:absolute;z-index:-1;pointer-events:none;width:34rem;height:34rem;
+  border-radius:50%;filter:blur(95px);opacity:.075;left:-19rem;top:10%;
+  background:var(--pb-red);
+}
+main section:nth-of-type(odd):not(:first-child)::before{left:auto;right:-20rem;background:var(--pb-gold)}
+/* Hero */
+main section:first-child{min-height:min(850px,calc(100svh - 100px))!important}
+main section:first-child>div:first-child{animation:heroImageDrift 28s ease-in-out infinite alternate}
+main section:first-child h1{letter-spacing:-.045em!important;text-wrap:balance;text-shadow:0 10px 35px rgba(0,0,0,.34)}
+main section:first-child h1 span{
+  background-image:linear-gradient(100deg,#ef4550 0%,#d51d36 42%,#ffffff 100%)!important;
+  background-size:180% auto;animation:gradientFlow 8s ease-in-out infinite alternate;
+}
+main section:first-child .glass-panel{
+  border:1px solid rgba(230,189,104,.2)!important;
+  background:linear-gradient(135deg,rgba(28,24,23,.88),rgba(12,11,11,.82))!important;
+  box-shadow:0 24px 75px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.08)!important;
+}
+main section:first-child .glass-panel>div:first-child{
+  display:flex;align-items:center;gap:clamp(12px,2vw,26px)!important;
+  flex-wrap:nowrap;white-space:nowrap;
+}
+main section:first-child .glass-panel>div:first-child button{
+  flex:1 1 0;justify-content:center;min-width:0;font-size:clamp(9px,.78vw,11px);
+  letter-spacing:.09em!important;white-space:nowrap;
+}
+main section:first-child .glass-panel input{border-radius:7px!important;background:rgba(5,5,5,.72)!important}
+main section:first-child .glass-panel>button,
+.booking-submit,.ripple.bg-pbRed{
+  border-radius:7px!important;background:linear-gradient(105deg,#bd102b,#e12b3e)!important;
+  box-shadow:0 12px 30px rgba(200,16,46,.24)!important;
+  transition:transform .3s var(--pb-ease),filter .3s,box-shadow .3s!important;
+}
+main section:first-child .glass-panel>button:hover,.ripple.bg-pbRed:hover{
+  transform:translateY(-3px);filter:brightness(1.12);
+  box-shadow:0 17px 38px rgba(200,16,46,.34)!important;
+}
+main section:first-child .max-w-md>div:last-child{
+  border-radius:16px!important;border-color:rgba(230,189,104,.2)!important;
+  box-shadow:0 28px 90px rgba(0,0,0,.56)!important;
+  transform:translateY(0);transition:transform .5s var(--pb-ease),box-shadow .5s;
+}
+main section:first-child .max-w-md:hover>div:last-child{transform:translateY(-7px);box-shadow:0 34px 100px rgba(0,0,0,.68)!important}
+main section:first-child .max-w-md .h-80{height:clamp(250px,29vw,350px)}
+/* Section headings and horizontal controls */
+main section h2{
+  letter-spacing:-.035em!important;text-wrap:balance;
+}
+main section .border-b.border-white\/10.pb-6{
+  align-items:flex-end!important;gap:26px!important;
+}
+#products-grid{align-items:stretch}
+.cat-btn{
+  flex:0 0 auto!important;white-space:nowrap!important;padding:0 0 11px!important;
+  font-size:10px!important;letter-spacing:.13em!important;transition:color .25s,border-color .25s;
+}
+.cat-btn.active{color:#fff!important;border-color:var(--pb-red)!important}
+.ticker-track{will-change:transform}
+.glass-panel,.booking-panel{border-radius:14px!important}
+.glass-panel-hover{transition:transform .45s var(--pb-ease),border-color .35s,box-shadow .35s}
+.glass-panel-hover:hover{transform:translateY(-7px)!important;border-color:rgba(230,189,104,.35)!important}
+main img{transition:transform .8s var(--pb-ease),filter .6s}
+main img:hover{filter:brightness(1.04) saturate(1.08)}
+/* Elegant footer and consistent controls */
+footer{background:linear-gradient(180deg,#0d0b0b,#050505)!important;border-top:1px solid rgba(230,189,104,.15)}
+button,a{touch-action:manipulation}
+button:active{transform:scale(.985)}
+#mobile-nav-drawer{z-index:80!important}
+#mobile-nav-drawer nav a{font-size:14px!important;letter-spacing:.16em!important}
+#mobile-nav-drawer nav a:first-child{color:var(--pb-gold)!important}
+#toast-wrapper{z-index:150!important}
+@keyframes gradientFlow{from{background-position:0% 50%}to{background-position:100% 50%}}
+@keyframes heroImageDrift{from{transform:scale(1.04) translate3d(-.4%,0,0)}to{transform:scale(1.11) translate3d(.4%,-.3%,0)}}
+@media(max-width:1100px) and (min-width:1024px){
+ header .pb-brand-logo{width:190px!important}
+ header nav{gap:14px!important}
+ header nav a{font-size:9px!important;letter-spacing:.1em!important}
+ header .hidden.lg\:flex.items-center.gap-5{gap:9px!important}
+ header .hidden.lg\:flex.items-center.gap-5 button{padding-left:12px!important;padding-right:12px!important;font-size:9px!important}
+}
+@media(max-width:1023px){
+ header .pb-brand-logo{max-width:58vw;width:clamp(190px,30vw,240px)!important}
+}
+@media(max-width:767px){
+ html{scroll-padding-top:78px}
+ main section:first-child{min-height:auto!important;padding-top:56px!important;padding-bottom:64px!important}
+ main section:first-child .grid{gap:42px!important}
+ main section:first-child h1{font-size:clamp(2.45rem,10vw,4rem)!important;line-height:1.03!important}
+ main section:first-child .glass-panel{padding:18px!important}
+ main section:first-child .glass-panel>div:first-child{gap:8px!important}
+ main section:first-child .glass-panel>div:first-child button{font-size:9px!important;letter-spacing:.035em!important;gap:6px!important}
+ main section:first-child .max-w-md{max-width:440px}
+ main section:first-child .max-w-md .h-80{height:270px}
+ main section .max-w-7xl{padding-left:21px!important;padding-right:21px!important}
+ main section.py-24{padding-top:76px!important;padding-bottom:76px!important}
+ main section .border-b.border-white\/10.pb-6{align-items:flex-start!important}
+ #products-grid{gap:18px!important}
+}
+@media(max-width:420px){
+ header .pb-brand-logo{width:185px!important;max-width:55vw}
+ main section:first-child .glass-panel>div:first-child button{font-size:8px!important}
+ main section:first-child .glass-panel>div:first-child i{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+ main section:first-child>div:first-child,main section:first-child h1 span{animation:none!important}
+}
+
+.pb-reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.75,.25,1)}.pb-reveal.pb-in{opacity:1;transform:translateY(0)}
+/* Overlay hierarchy: cart and dialogs must always sit above the sticky navigation. */
+#cart-overlay{z-index:90!important}
+#cart-drawer{z-index:100!important;isolation:isolate}
+#booking-modal,#order-success-modal{z-index:110!important}
+#mobile-nav-drawer{z-index:80!important}
+header{z-index:60!important}
+body.cart-open header{pointer-events:none}
+body.cart-open #cart-drawer,body.cart-open #cart-overlay{pointer-events:auto}
+@media(max-width:767px){#cart-drawer{width:100vw!important;max-width:100vw!important}}
+</style>
+
+<script>
+/* Small defensive fixes + polished interactions */
+(function(){
+  const initPolish=()=>{
+    // Prevent the mobile drawer from staying open after choosing a local page.
+    const drawer=document.getElementById('mobile-nav-drawer');
+    if(drawer && !drawer.hasAttribute('aria-hidden')) drawer.setAttribute('aria-hidden','true');
+
+    // Smooth reveal for all meaningful content blocks, with a safe fallback.
+    const revealTargets=document.querySelectorAll('main section h2, main section .glass-panel, main section #products-grid > *, main section img');
+    if('IntersectionObserver' in window){
+      const io=new IntersectionObserver(entries=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){entry.target.classList.add('pb-in');io.unobserve(entry.target);}
+        });
+      },{threshold:.08,rootMargin:'0px 0px -35px 0px'});
+      revealTargets.forEach(el=>{el.classList.add('pb-reveal');io.observe(el);});
+    }else revealTargets.forEach(el=>el.classList.add('pb-in'));
+
+    // Keep the active category usable when the category row is horizontally scrolled.
+    document.querySelectorAll('.cat-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'nearest'}));
+    });
+
+    // Close the mobile navigation on outside click and Escape.
+    document.addEventListener('click',e=>{
+      if(!drawer || !drawer.classList.contains('is-open')) return;
+      const trigger=e.target.closest('button[aria-label="Menu Mobile"]');
+      if(!drawer.contains(e.target) && !trigger && typeof toggleMobileNav==='function') toggleMobileNav();
+    });
+  };
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initPolish,{once:true});
+  else initPolish();
+})();
+</script>
+
+
+<script>
+(() => {
+  if (window.__pizzaBoyPremiumInit) return;
+  window.__pizzaBoyPremiumInit = true;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceMotion && 'IntersectionObserver' in window) {
+    const candidates = document.querySelectorAll('main section, main .glass-panel, main article, main .section-heading');
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('pb-visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -35px 0px' });
+    candidates.forEach((el, index) => {
+      if (el.closest('header')) return;
+      el.classList.add('pb-reveal');
+      if (index % 4) el.classList.add('pb-reveal-delay-' + (index % 4));
+      observer.observe(el);
+    });
+  }
+})();
+</script>
+
+<link rel="stylesheet" href="assets/css/pizzaboy.css?v=20261114-ios26final">
+<style id="pb-booking-final-polish">
+  /* Booking modal: custom branded controls only (native selects stay visually hidden). */
+  #booking-modal { padding:clamp(10px,3vw,28px)!important; }
+  #booking-modal .booking-panel {
+    width:min(100%,720px)!important; max-height:min(88dvh,820px)!important; overflow-y:auto!important;
+    overscroll-behavior:contain; scrollbar-width:thin; scrollbar-color:#c8102e #171717;
+    border:1px solid rgba(200,16,46,.78)!important; border-radius:14px!important;
+    background:linear-gradient(145deg,#1b1b1b 0%,#101010 72%)!important;
+    box-shadow:0 28px 90px rgba(0,0,0,.78),0 0 34px rgba(200,16,46,.12)!important;
+  }
+  #booking-modal .booking-panel > div:first-child { border-bottom:1px solid rgba(200,16,46,.28)!important; }
+  #booking-modal label { display:block; color:#f1f1f1!important; margin:0 0 8px!important; }
+  #booking-modal input:not([type="hidden"]) {
+    width:100%; min-height:54px; border:1px solid rgba(200,16,46,.65)!important;
+    border-radius:7px!important; background:#111!important; color:#fff!important;
+    padding:13px 15px!important; font-size:14px!important; transition:border-color .18s,box-shadow .18s;
+  }
+  #booking-modal input:focus { outline:none!important; border-color:#ef334b!important; box-shadow:0 0 0 3px rgba(200,16,46,.17)!important; }
+  #booking-modal input::placeholder { color:#777!important; }
+  #booking-modal input[type="date"] { color-scheme:dark; }
+  #booking-modal .custom-select-wrap { position:relative; width:100%; z-index:1; }
+  #booking-modal .custom-select-wrap.is-open { z-index:30; }
+  #booking-modal .custom-select-native {
+    position:absolute!important; width:1px!important; height:1px!important; padding:0!important; margin:-1px!important;
+    overflow:hidden!important; clip:rect(0,0,0,0)!important; white-space:nowrap!important; border:0!important;
+  }
+  #booking-modal .custom-select-trigger {
+    width:100%; min-height:54px; display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:13px 15px; border:1px solid rgba(200,16,46,.68)!important; border-radius:7px!important;
+    background:#111!important; color:#fff!important; font-size:14px!important; font-weight:650;
+    text-align:left; cursor:pointer; box-shadow:none; -webkit-appearance:none; appearance:none;
+  }
+  #booking-modal .custom-select-trigger:hover,
+  #booking-modal .custom-select-wrap.is-open .custom-select-trigger,
+  #booking-modal .custom-select-trigger:focus-visible {
+    border-color:#ef334b!important; outline:none!important; box-shadow:0 0 0 3px rgba(200,16,46,.17)!important;
+  }
+  #booking-modal .custom-select-trigger .custom-chevron { color:#ef334b!important; transition:transform .2s; }
+  #booking-modal .custom-select-wrap.is-open .custom-chevron { transform:rotate(180deg); }
+  #booking-modal .custom-select-options {
+    position:absolute!important; top:calc(100% + 7px)!important; left:0!important; right:0!important; z-index:999!important;
+    display:none!important; max-height:min(36dvh,260px)!important; overflow-y:auto!important; overscroll-behavior:contain;
+    padding:6px!important; border:1px solid #c8102e!important; border-radius:9px!important;
+    background:#101010!important; color:#fff!important; box-shadow:0 18px 48px rgba(0,0,0,.8),0 0 18px rgba(200,16,46,.12)!important;
+    scrollbar-width:thin; scrollbar-color:#c8102e #171717;
+  }
+  #booking-modal .custom-select-wrap.is-open .custom-select-options {
+    display:block!important; visibility:visible!important; opacity:1!important; transform:translateY(0)!important;
+  }
+  #booking-modal .custom-select-wrap:not(.is-open) .custom-select-options {
+    visibility:hidden!important; opacity:0!important; pointer-events:none!important;
+  }
+  #booking-modal .custom-select-wrap { isolation:isolate; }
+  #booking-modal .custom-select-wrap.is-open { z-index:1000!important; }
+  #booking-modal .custom-select-option {
+    width:100%; min-height:44px; display:flex; justify-content:space-between; align-items:center;
+    padding:11px 13px!important; border:0!important; border-radius:5px!important;
+    background:transparent!important; color:#f4f4f4!important; text-align:left; font:600 14px/1.35 inherit!important;
+    cursor:pointer; appearance:none!important; -webkit-appearance:none!important;
+  }
+  #booking-modal .custom-select-option:hover,
+  #booking-modal .custom-select-option:focus-visible { outline:none!important; background:rgba(200,16,46,.2)!important; color:#fff!important; }
+  #booking-modal .custom-select-option[aria-selected="true"] { background:#c8102e!important; color:#fff!important; font-weight:800; }
+  #booking-modal .booking-submit { min-height:54px; border:1px solid #c8102e!important; border-radius:7px!important; background:#c8102e!important; box-shadow:0 8px 24px rgba(200,16,46,.2); }
+  #booking-modal .booking-submit:hover { background:#e12642!important; }
+  /* Remove the last inherited gold focus treatment across the order/booking UI. */
+  button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline-color:#c8102e!important; }
+  @media(max-width:640px) {
+    #booking-modal { align-items:flex-end!important; padding:8px!important; }
+    #booking-modal .booking-panel {
+      width:100%!important; max-width:none!important; max-height:calc(100dvh - 16px)!important;
+      padding:21px 16px calc(18px + env(safe-area-inset-bottom))!important;
+      border-radius:16px 16px 10px 10px!important;
+    }
+    #booking-modal .booking-panel > div:first-child { margin-bottom:18px!important; padding-bottom:14px!important; }
+    #booking-modal h3 { font-size:clamp(23px,7vw,29px)!important; line-height:1.08!important; }
+    #booking-modal form { display:flex!important; flex-direction:column!important; gap:15px!important; }
+    #booking-modal form .grid { display:grid!important; grid-template-columns:1fr!important; gap:14px!important; }
+    #booking-modal input:not([type="hidden"]), #booking-modal .custom-select-trigger { min-height:52px!important; font-size:16px!important; }
+    #booking-modal .custom-select-option { min-height:48px!important; font-size:15px!important; }
+    #booking-modal .booking-submit { margin-top:3px!important; min-height:56px!important; font-size:12px!important; }
+  }
+  @media(min-width:641px) and (max-height:650px) {
+    #booking-modal .booking-panel { max-height:94dvh!important; }
+  }
+  @media(prefers-reduced-motion:reduce) {
+    #booking-modal *, #booking-modal *::before, #booking-modal *::after { transition-duration:.01ms!important; }
+  }
+</style>
+
+<style id="booking-modal-redesign-v2">
+  /* Prenotazione: componente ridisegnato integralmente, palette solo nero/rosso/bianco */
+  #booking-modal.booking-modal { background:rgba(0,0,0,.86)!important; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); overflow-y:auto; }
+  #booking-modal .booking-panel { width:min(100%,760px)!important; max-height:min(92dvh,900px)!important; overflow:auto; padding:0!important; border:1px solid rgba(220,25,54,.72)!important; border-radius:18px!important; background:#101010!important; color:#fff; box-shadow:0 30px 100px rgba(0,0,0,.82),0 0 45px rgba(200,16,46,.16)!important; scrollbar-width:thin; scrollbar-color:#c8102e #151515; }
+  #booking-modal .booking-hero { position:relative; overflow:hidden; padding:34px 40px 29px; background:radial-gradient(ellipse at 92% 0%,rgba(200,16,46,.25),transparent 42%),linear-gradient(135deg,#202020,#111 72%); border-bottom:1px solid rgba(200,16,46,.35); }
+  #booking-modal .booking-hero:after { content:""; position:absolute; width:210px;height:210px;right:-90px;bottom:-150px;border:1px solid rgba(200,16,46,.24);border-radius:50%;box-shadow:0 0 0 22px rgba(200,16,46,.035),0 0 0 44px rgba(200,16,46,.025);pointer-events:none; }
+  #booking-modal .booking-emblem { width:46px;height:46px;display:grid;place-items:center;margin-bottom:18px;border:1px solid #c8102e;border-radius:12px;background:rgba(200,16,46,.12);color:#ef334b;font-size:19px; }
+  #booking-modal .booking-close { position:absolute;right:22px;top:22px;width:40px;height:40px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.16);border-radius:50%;background:#171717;color:#fff;font-size:17px;transition:.2s; }
+  #booking-modal .booking-close:hover { border-color:#ef334b;background:#c8102e; }
+  #booking-modal .booking-kicker { display:flex;align-items:center;gap:9px;color:#ef334b;font-size:10px;font-weight:900;letter-spacing:.22em;text-transform:uppercase; }
+  #booking-modal .booking-kicker span { width:22px;height:2px;background:#c8102e; }
+  #booking-modal #booking-title { margin:10px 0 8px;color:#fff;font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(36px,6vw,54px);font-weight:700;line-height:.98;text-transform:uppercase;letter-spacing:-.025em; }
+  #booking-modal #booking-title em { color:#ef334b;font-weight:500; }
+  #booking-modal .booking-hero p { max-width:510px;margin:0;color:#bcbcbc;font-size:13px;line-height:1.7; }
+  #booking-modal .booking-form { display:flex;flex-direction:column;gap:18px;padding:28px 40px 30px; }
+  #booking-modal .booking-section-title { display:flex;align-items:center;gap:13px; }
+  #booking-modal .booking-section-title>span { width:34px;height:34px;flex:none;display:grid;place-items:center;border:1px solid #c8102e;border-radius:50%;color:#ef334b;font-size:12px;font-weight:900; }
+  #booking-modal .booking-section-title strong { display:block;color:#fff;font-size:13px;font-weight:850;letter-spacing:.025em; }
+  #booking-modal .booking-section-title small { display:block;margin-top:3px;color:#858585;font-size:11px; }
+  #booking-modal .booking-fields { display:grid;gap:16px; }
+  #booking-modal .booking-fields-two { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  #booking-modal .booking-field { min-width:0; }
+  #booking-modal .booking-field label { display:block;margin:0 0 8px!important;color:#e7e7e7!important;font-size:10px!important;font-weight:900!important;letter-spacing:.13em;text-transform:uppercase; }
+  #booking-modal .booking-field label b { color:#ef334b; }
+  #booking-modal .booking-input-shell { position:relative; }
+  #booking-modal .booking-input-shell>i { position:absolute;left:15px;top:50%;z-index:1;transform:translateY(-50%);color:#ef334b;font-size:14px;pointer-events:none; }
+  #booking-modal .booking-input-shell input { width:100%;height:54px;min-width:0;padding:0 14px 0 43px!important;border:1px solid rgba(200,16,46,.58)!important;border-radius:8px!important;background:#171717!important;color:#fff!important;font:600 14px 'DM Sans',sans-serif!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.035);transition:border-color .2s,box-shadow .2s,background .2s; }
+  #booking-modal .booking-input-shell input::placeholder { color:#777!important;font-weight:400; }
+  #booking-modal .booking-input-shell input:focus { outline:none!important;border-color:#ef334b!important;background:#1c1c1c!important;box-shadow:0 0 0 3px rgba(200,16,46,.16)!important; }
+  #booking-modal input[type=date] { color-scheme:dark; }
+  #booking-modal input[type=date]::-webkit-calendar-picker-indicator { filter:invert(26%) sepia(90%) saturate(2500%) hue-rotate(330deg);cursor:pointer; }
+  #booking-modal .booking-custom-select { position:relative;width:100%;isolation:isolate; }
+  #booking-modal .booking-custom-select.is-open { z-index:100!important; }
+  #booking-modal .booking-custom-select .custom-select-trigger { width:100%;height:54px;min-height:54px;padding:0 15px!important;border:1px solid rgba(200,16,46,.58)!important;border-radius:8px!important;background:#171717!important;color:#fff!important;font:600 14px 'DM Sans',sans-serif!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important; }
+  #booking-modal .booking-custom-select .custom-select-trigger:hover,#booking-modal .booking-custom-select.is-open .custom-select-trigger,#booking-modal .booking-custom-select .custom-select-trigger:focus-visible { border-color:#ef334b!important;background:#1c1c1c!important;outline:none!important;box-shadow:0 0 0 3px rgba(200,16,46,.16)!important; }
+  #booking-modal .booking-custom-select .custom-chevron { color:#ef334b!important; }
+  #booking-modal .booking-custom-select .custom-select-options { position:absolute!important;top:calc(100% + 7px)!important;left:0!important;right:0!important;z-index:500!important;display:none!important;max-height:220px!important;overflow-y:auto!important;padding:6px!important;border:1px solid #c8102e!important;border-radius:9px!important;background:#111!important;box-shadow:0 18px 48px rgba(0,0,0,.85),0 0 20px rgba(200,16,46,.13)!important; }
+  #booking-modal .booking-custom-select.is-open .custom-select-options { display:block!important;visibility:visible!important;opacity:1!important;transform:none!important; }
+  #booking-modal .booking-custom-select:not(.is-open) .custom-select-options { visibility:hidden!important;opacity:0!important;pointer-events:none!important; }
+  #booking-modal .booking-custom-select .custom-select-option { width:100%;min-height:44px;padding:11px 13px!important;border:0!important;border-radius:6px!important;background:transparent!important;color:#eee!important;font:600 13px 'DM Sans',sans-serif!important;text-align:left; }
+  #booking-modal .booking-custom-select .custom-select-option:hover,#booking-modal .booking-custom-select .custom-select-option:focus-visible { outline:none!important;background:rgba(200,16,46,.2)!important;color:#fff!important; }
+  #booking-modal .booking-custom-select .custom-select-option[aria-selected=true] { background:#c8102e!important;color:#fff!important; }
+  #booking-modal .booking-divider { height:1px;background:linear-gradient(90deg,rgba(200,16,46,.45),rgba(255,255,255,.06),transparent); }
+  #booking-modal .booking-required-note { display:flex;align-items:center;gap:8px;margin:-3px 0 0;color:#858585;font-size:10px; }
+  #booking-modal .booking-required-note i { color:#ef334b; }
+  #booking-modal .booking-submit { width:100%;min-height:58px;display:flex;align-items:center;justify-content:center;gap:14px;padding:14px 20px;border:1px solid #e12642!important;border-radius:8px!important;background:linear-gradient(100deg,#b90d29,#e12642)!important;color:#fff!important;font-size:11px!important;font-weight:950!important;letter-spacing:.15em;text-transform:uppercase;box-shadow:0 10px 28px rgba(200,16,46,.22);transition:transform .2s,box-shadow .2s,filter .2s; }
+  #booking-modal .booking-submit:hover { transform:translateY(-1px);filter:brightness(1.08);box-shadow:0 14px 34px rgba(200,16,46,.3); }
+  #booking-modal .booking-submit i { font-size:14px; }
+  #booking-modal .booking-footnote { margin:-4px 0 0;text-align:center;color:#777;font-size:10px;letter-spacing:.025em; }
+  #booking-modal .booking-footnote span { color:#c8102e; }
+  @media(max-width:640px) {
+    #booking-modal.booking-modal { align-items:flex-end!important;padding:7px!important; }
+    #booking-modal .booking-panel { width:100%!important;max-height:calc(100dvh - 14px)!important;border-radius:17px 17px 12px 12px!important; }
+    #booking-modal .booking-hero { padding:22px 20px 20px; }
+    #booking-modal .booking-emblem { width:39px;height:39px;margin-bottom:12px;font-size:16px;border-radius:10px; }
+    #booking-modal .booking-close { top:16px;right:16px;width:36px;height:36px; }
+    #booking-modal #booking-title { max-width:290px;font-size:clamp(34px,10vw,43px); }
+    #booking-modal .booking-hero p { max-width:300px;font-size:12px; }
+    #booking-modal .booking-form { gap:14px;padding:20px 18px calc(20px + env(safe-area-inset-bottom)); }
+    #booking-modal .booking-fields-two { grid-template-columns:minmax(0,1fr);gap:13px; }
+    #booking-modal .booking-section-title>span { width:31px;height:31px; }
+    #booking-modal .booking-input-shell input,#booking-modal .booking-custom-select .custom-select-trigger { height:52px;min-height:52px;font-size:16px!important; }
+    #booking-modal .booking-custom-select .custom-select-option { min-height:48px;font-size:15px!important; }
+    #booking-modal .booking-submit { min-height:56px;font-size:10px!important; }
+  }
+  @media(min-width:641px) and (max-height:760px) { #booking-modal .booking-panel { max-height:96dvh!important; } #booking-modal .booking-form { gap:13px;padding-top:20px;padding-bottom:22px; } }
+  @media(prefers-reduced-motion:reduce) { #booking-modal * { transition:none!important; } }
+</style>
+
+
+<style id="pizza-boy-final-layout-fixes">
+#booking-modal:not(.hidden){display:flex!important;align-items:center!important;justify-content:center!important;position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;box-sizing:border-box!important;padding:20px!important;overflow-y:auto!important}
+#booking-modal .booking-panel{margin:auto!important;flex:0 1 760px!important}
+@media(max-width:640px){#booking-modal:not(.hidden){padding:12px!important}#booking-modal .booking-panel{width:100%!important;max-height:calc(100dvh - 24px)!important}}
+#mobile-nav-drawer nav.mobile-drawer-links{display:flex!important;flex:1 0 auto!important;flex-direction:column!important;justify-content:center!important;align-items:stretch!important;gap:12px!important;width:100%!important;margin:0!important;padding:0!important;text-align:left!important}
+#mobile-nav-drawer nav.mobile-drawer-links a{display:flex!important;align-items:center!important;width:100%!important;min-height:54px!important;box-sizing:border-box!important;margin:0!important;padding:0 18px!important;border:1px solid rgba(255,255,255,.11)!important;border-radius:14px!important;background:linear-gradient(135deg,rgba(255,255,255,.09),rgba(255,255,255,.025))!important;color:rgba(255,255,255,.9)!important;font-size:13px!important;font-weight:750!important;letter-spacing:.12em!important;line-height:1.2!important;text-align:left!important}
+#mobile-nav-drawer nav.mobile-drawer-links a:hover,#mobile-nav-drawer nav.mobile-drawer-links a:focus-visible{border-color:rgba(225,38,59,.7)!important;color:#fff!important;background:rgba(200,16,46,.14)!important}
+#mobile-nav-drawer > div:first-child button.mobile-drawer-close{width:44px!important;height:44px!important;flex:0 0 44px!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:0!important;margin:0!important;border:1px solid rgba(255,255,255,.2)!important;border-radius:50%!important;background:rgba(255,255,255,.08)!important;color:#fff!important;font-size:21px!important;line-height:1!important;transform:none!important;rotate:0deg!important}
+#mobile-nav-drawer > div:first-child button.mobile-drawer-close i{display:block!important;transform:none!important;line-height:1!important}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/backend.js"></script>
+</body>
+</html>

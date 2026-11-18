@@ -1,0 +1,64 @@
+PIZZA BOY — ATTIVAZIONE BACKEND CLOUD (Supabase)
+================================================
+
+IMPORTANTE
+La cartella contiene già il collegamento cloud, ma non può essere attivato
+senza un progetto Supabase creato dal proprietario del sito. Non esistono
+credenziali universali: URL e chiave anon sono specifici del tuo progetto.
+Non caricare MAI la chiave service_role nel sito.
+
+1) CREA IL DATABASE
+- Vai su https://supabase.com e crea un progetto.
+- Apri SQL Editor > New query.
+- Copia tutto il contenuto di supabase-setup.sql e premi Run.
+
+2) CREA L'ACCOUNT ADMIN
+- In Supabase apri Authentication > Users > Add user.
+- Inserisci la tua email e una password robusta.
+- Conferma/crea l'utente.
+- Copia il suo User UID.
+- In SQL Editor esegui (sostituisci UID):
+  insert into public.pb_admin_users(user_id)
+  values ('UID-DELL-UTENTE-ADMIN');
+  Questo passaggio è essenziale: solo gli UID presenti in questa tabella
+  possono leggere ordini/prenotazioni o modificarne lo stato.
+
+3) COLLEGA IL SITO
+- In Supabase vai in Project Settings > API.
+- Copia Project URL e anon/public key.
+- Apri assets/js/config.js e inserisci i due valori:
+  window.PB_SUPABASE_URL = 'https://TUO-PROGETTO.supabase.co';
+  window.PB_SUPABASE_ANON_KEY = 'TUA-ANON-PUBLIC-KEY';
+- La anon key è prevista per il frontend ed è limitata dalle policy RLS
+  create dallo script SQL. Non usare service_role.
+
+4) PUBBLICA
+- Carica TUTTO il contenuto della cartella fronted sul tuo hosting mantenendo
+  la struttura: index.html, menu.html, prenota.html, admin.html, assets/...
+- Usa hosting HTTPS. Non aprire i file con doppio clic / file://.
+- Area amministratore: /admin.html. Accedi con email e password creati al punto 2.
+
+5) VERIFICA
+- Invia un ordine di prova dal sito.
+- Apri /admin.html da un altro dispositivo e verifica che l'ordine compaia.
+- Cambia lo stato e controlla che resti aggiornato anche ricaricando.
+- Prova una prenotazione dalla pagina prenota.html.
+
+COSA VIENE SALVATO NEL CLOUD
+- Ordini: dettagli cliente, prodotti, indirizzo/ritiro, totale, pagamento e stato.
+- Prenotazioni: nome, data, orario, persone, telefono, email e note.
+- Il carrello resta nel browser per comodità: non è un archivio ordini.
+
+LIMITI / PRODUZIONE
+- I pagamenti non vengono incassati automaticamente: il campo pagamento registra
+  solo il metodo scelto. Per pagamenti online serve integrare un provider.
+- Le notifiche push/email/WhatsApp non sono incluse in questa versione.
+- Prima di accettare ordini reali, aggiungi protezione anti-spam/CAPTCHA e verifica
+  le impostazioni Auth/SMTP del progetto. Le policy impediscono ai visitatori di
+  leggere ordini o prenotazioni; solo l'admin autorizzato può consultarli.
+
+SICUREZZA SERVER-SIDE (NUOVA)
+- Segui integralmente SICUREZZA-SERVER.md.
+- Esegui anche supabase/rate-limit.sql nel SQL Editor.
+- Pubblica la Edge Function con Supabase CLI prima di usare invii pubblici.
+- Dopo aver applicato il nuovo supabase-setup.sql, gli invii diretti anonimi sono disabilitati.

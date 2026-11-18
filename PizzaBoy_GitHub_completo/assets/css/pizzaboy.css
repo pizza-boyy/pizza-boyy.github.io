@@ -1,0 +1,1190 @@
+
+/* =========================================================
+   PIZZA BOY — PREMIUM RESPONSIVE LAYER
+   ========================================================= */
+:root {
+  --pb-red: #c8102e;
+  --pb-red-bright: #e11d3f;
+  --pb-ink: #090909;
+  --pb-panel: #141414;
+  --pb-line: rgba(200,16,46,.72);
+  --pb-text: #f6f3f0;
+  --pb-muted: #aaa39f;
+  --pb-ease: cubic-bezier(.22,1,.36,1);
+}
+html { scroll-behavior:smooth; scroll-padding-top:92px; }
+body {
+  font-family:'DM Sans',sans-serif !important;
+  background:
+    radial-gradient(ellipse at 50% -18%, rgba(200,16,46,.105), transparent 48%),
+    var(--pb-ink) !important;
+  color:var(--pb-text);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+h1,h2,h3,h4,.font-serif-title,.font-serif {
+  font-family:'Cormorant Garamond',Georgia,serif !important;
+  letter-spacing:-.025em;
+}
+h1 { line-height:.98 !important; }
+h2 { line-height:1.05 !important; }
+p { line-height:1.75; }
+a,button,[role="button"],input,select,textarea {
+  -webkit-tap-highlight-color:transparent;
+}
+a,button { transition:color .25s var(--pb-ease),background-color .25s var(--pb-ease),border-color .25s var(--pb-ease),box-shadow .3s var(--pb-ease),transform .3s var(--pb-ease),opacity .25s ease; }
+button { touch-action:manipulation; }
+:focus-visible { outline:2px solid var(--pb-red) !important; outline-offset:4px; }
+::selection { background:var(--pb-red); color:#fff; }
+
+/* Tutte le linee decorative delle sezioni: esclusivamente rosse. */
+section [class*="border-b"], section [class*="border-t"],
+.section-divider, .section-line, .title-line, .heading-line {
+  border-color:var(--pb-red) !important;
+}
+.section-heading::after, .section-heading::before, section hr {
+  border-color:var(--pb-red) !important;
+  background-color:var(--pb-red);
+}
+section [class*="border-pbGold"], section [class*="border-yellow"],
+section [class*="border-amber"], section [class*="border-gold"] {
+  border-color:var(--pb-red) !important;
+}
+.section-heading::after, .section-heading::before { background:var(--pb-red) !important; }
+
+/* Header e navigazione */
+header, nav { -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px); }
+header { border-bottom:1px solid rgba(200,16,46,.22) !important; }
+header a:hover, nav a:hover { color:#fff !important; }
+header button, nav button { min-height:42px; }
+#mobile-nav, .mobile-nav, #mobile-menu { z-index:100; }
+
+/* Contatore carrello: badge compatto, pulito e leggibile */
+#header-cart-badge, #mobile-cart-badge {
+  background:var(--pb-red) !important;
+  color:#fff !important;
+  border:1px solid rgba(255,255,255,.2) !important;
+  border-radius:999px !important;
+  width:auto !important;
+  min-width:23px !important;
+  height:23px !important;
+  padding:0 7px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  font-family:'DM Sans',sans-serif !important;
+  font-size:11px !important;
+  font-weight:800 !important;
+  line-height:1 !important;
+  letter-spacing:-.02em;
+  box-shadow:0 3px 12px rgba(200,16,46,.28);
+  font-variant-numeric:tabular-nums;
+}
+#mobile-cart-badge {
+  position:absolute !important; top:-7px !important; right:-7px !important;
+  min-width:21px !important; height:21px !important; padding:0 6px !important;
+  font-size:10px !important;
+}
+button:has(#header-cart-badge) {
+  display:inline-flex; align-items:center; gap:10px;
+}
+button:has(#mobile-cart-badge) { position:relative; }
+
+/* Superfici, card e immagini */
+.glass-panel { border-color:rgba(255,255,255,.09) !important; }
+.glass-panel-hover { transition:transform .45s var(--pb-ease),border-color .35s ease,box-shadow .4s ease !important; }
+.glass-panel-hover:hover {
+  border-color:rgba(200,16,46,.55) !important;
+  transform:translateY(-5px);
+  box-shadow:0 22px 55px rgba(0,0,0,.38),0 8px 28px rgba(200,16,46,.09) !important;
+}
+img { max-width:100%; }
+main img { transition:transform .7s var(--pb-ease),filter .5s ease; }
+main img:hover { filter:saturate(1.06); }
+[class*="rounded"] { scroll-margin-top:90px; }
+
+/* Pulsanti più raffinati */
+button, .btn, a[class*="bg-pbRed"] {
+  letter-spacing:.015em;
+}
+button[class*="bg-pbRed"], a[class*="bg-pbRed"] {
+  box-shadow:0 7px 22px rgba(200,16,46,.17);
+}
+button[class*="bg-pbRed"]:hover, a[class*="bg-pbRed"]:hover {
+  box-shadow:0 10px 30px rgba(200,16,46,.3);
+  transform:translateY(-2px);
+}
+button:active, a[class*="bg-pbRed"]:active { transform:translateY(0) scale(.985); }
+
+/* Campi form coerenti */
+input:not([type="checkbox"]):not([type="radio"]), select, textarea,
+.custom-select-trigger, .pickup-select-trigger {
+  border-radius:8px !important;
+  transition:border-color .25s ease,box-shadow .25s ease,background .25s ease !important;
+}
+input:focus, select:focus, textarea:focus {
+  border-color:var(--pb-red) !important;
+  box-shadow:0 0 0 3px rgba(200,16,46,.14) !important;
+  outline:none !important;
+}
+.custom-select-trigger, .pickup-select-trigger {
+  border-color:rgba(255,255,255,.16) !important;
+  box-shadow:none !important;
+}
+.custom-select-trigger:hover,.custom-select-wrap.is-open .custom-select-trigger,
+.pickup-select-trigger:hover,.pickup-select-wrap.is-open .pickup-select-trigger {
+  border-color:var(--pb-red) !important;
+  box-shadow:0 0 0 3px rgba(200,16,46,.12) !important;
+}
+.pickup-select-icon,.pickup-select-chevron,.pickup-option[aria-selected="true"],
+.pickup-option[aria-selected="true"] i { color:var(--pb-red) !important; }
+.pickup-select-trigger { background:#191919 !important; }
+
+/* Entrata morbida degli elementi, attivata via JS */
+.pb-reveal { opacity:0; transform:translateY(22px); transition:opacity .75s var(--pb-ease),transform .75s var(--pb-ease); }
+.pb-reveal.pb-visible { opacity:1; transform:translateY(0); }
+.pb-reveal-delay-1 { transition-delay:.08s; }
+.pb-reveal-delay-2 { transition-delay:.16s; }
+.pb-reveal-delay-3 { transition-delay:.24s; }
+
+/* Layout fluido tablet e smartphone */
+@media (max-width:1024px) {
+  .container, [class*="max-w-"] { max-width:100%; }
+  section { scroll-margin-top:78px; }
+}
+@media (max-width:768px) {
+  body { font-size:15px; }
+  h1 { font-size:clamp(2.65rem,11vw,4.7rem) !important; }
+  h2 { font-size:clamp(2.1rem,8vw,3.5rem) !important; }
+  p { line-height:1.68; }
+  header { padding-left: max(16px,env(safe-area-inset-left)) !important; padding-right:max(16px,env(safe-area-inset-right)) !important; }
+  main { overflow:clip; }
+  section { padding-left:clamp(18px,5vw,34px); padding-right:clamp(18px,5vw,34px); }
+  .glass-panel-hover:hover { transform:none; }
+  button, a[role="button"], input, select { min-height:44px; }
+  input:not([type="checkbox"]):not([type="radio"]),select,textarea { font-size:16px !important; }
+  .ticker-track { animation-duration:34s; }
+}
+@media (max-width:480px) {
+  .container { padding-left:16px !important; padding-right:16px !important; }
+  #header-cart-badge { min-width:21px !important; height:21px !important; font-size:10px !important; }
+  #mobile-cart-badge { top:-6px !important; right:-6px !important; }
+  .pickup-select-trigger { min-height:56px !important; }
+  .custom-select-options,.pickup-options { max-width:calc(100vw - 32px); }
+  .glass-panel { border-radius:12px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+  .pb-reveal { opacity:1 !important; transform:none !important; }
+}
+
+
+
+/* Navigazione principale: sottolineatura esclusivamente rossa */
+header nav a {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center;
+  padding-bottom: 9px !important;
+  border-bottom: 0 !important;
+  text-decoration: none !important;
+}
+header nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: #c8102e !important;
+  transform: scaleX(1);
+  transform-origin: left center;
+  opacity: .95;
+}
+header nav a:hover::after, header nav a:focus-visible::after {
+  background: #e11d3f !important;
+}
+
+
+/* =========================================================
+   POLISH FINALE — NAVIGAZIONE, BRAND E PALETTE ROSSO/ANTRACITE
+   ========================================================= */
+:root {
+  --pb-red: #c8102e;
+  --pb-red-bright: #e33a45;
+  --pb-ink: #080808;
+  --pb-panel: #141414;
+  --pb-text: #f7f4f2;
+  --pb-muted: #aaa3a1;
+}
+/* Nessun riquadro o fondo scuro sui link della navigazione. */
+header nav, header nav a {
+  background: transparent !important;
+  box-shadow: none !important;
+  outline-offset: 5px;
+}
+header nav a {
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 10px 0 12px !important;
+  color: #d2cdca !important;
+  overflow: visible !important;
+}
+header nav a::before {
+  content: none !important;
+  display: none !important;
+}
+header nav a::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 2px !important;
+  width: auto !important;
+  height: 2px !important;
+  border: 0 !important;
+  border-radius: 2px !important;
+  background: var(--pb-red) !important;
+  transform: scaleX(0) !important;
+  transform-origin: left center !important;
+  opacity: 1 !important;
+  transition: transform .32s cubic-bezier(.22,1,.36,1) !important;
+}
+header nav a:hover::after,
+header nav a:focus-visible::after,
+header nav a.text-pbRed::after,
+header nav a.border-pbRed::after {
+  transform: scaleX(1) !important;
+}
+header nav a:hover { color:#fff !important; }
+header nav a.text-pbRed { color:#fff !important; }
+/* Logo più grande e stabile anche sui display stretti. */
+header > div > a:first-child {
+  flex: 0 0 auto !important;
+  min-width: 0 !important;
+  background: transparent !important;
+}
+header .pb-brand-logo {
+  display:block !important;
+  width:clamp(205px, 24vw, 292px) !important;
+  max-width:none !important;
+  height:auto !important;
+}
+header .logo-glow { flex:0 0 auto !important; filter:drop-shadow(0 5px 16px rgba(200,16,46,.16)); }
+@media (max-width:1023px) {
+  header > div { gap:12px !important; }
+  header .pb-brand-logo { width:clamp(205px, 31vw, 250px) !important; }
+}
+@media (max-width:640px) {
+  header > div { min-height:82px !important; height:82px !important; padding-left:14px !important; padding-right:14px !important; }
+  header > div > a:first-child { margin-right:auto !important; }
+  header .pb-brand-logo { width:clamp(205px, 59vw, 232px) !important; max-width:none !important; }
+}
+@media (max-width:380px) {
+  header .pb-brand-logo { width:194px !important; }
+  header > div { gap:7px !important; }
+}
+/* Elimina i residui dorati/gialli da controlli e stati interattivi. */
+.pickup-select-trigger,
+.pickup-select-trigger:hover,
+.pickup-select-wrap.is-open .pickup-select-trigger,
+.pickup-select-trigger:focus-visible {
+  border-color:rgba(200,16,46,.72) !important;
+  box-shadow:0 0 0 3px rgba(200,16,46,.11), inset 0 1px 0 rgba(255,255,255,.04) !important;
+}
+.pickup-select-icon,.pickup-select-chevron,
+.pickup-option[aria-selected="true"],
+.pickup-option[aria-selected="true"] i { color:var(--pb-red-bright) !important; }
+.pickup-option[aria-selected="true"] { background:rgba(200,16,46,.12) !important; }
+/* Cornici e bordi dei componenti: sottili e coerenti, mai blocchi neri decorativi. */
+.section-heading::before,.section-heading::after { background:var(--pb-red) !important; }
+
+
+/* =========================================================
+   ART DIRECTION — ELEGANZA EDITORIALE, ROSSO E ANTRACITE
+   ========================================================= */
+:root{--pb-red:#c8102e;--pb-red-bright:#e13a50;--pb-gold:#c8102e;--pb-cream:#f4efed;--pb-text:#f5f0ed;--pb-muted:#b4aaa7}
+html,body,button,input,select,textarea{font-family:"DM Sans",sans-serif!important}
+body{letter-spacing:.006em;font-weight:400}
+h1,h2,h3,h4,h5,h6,.font-serif-title,.font-serif,blockquote{font-family:"Cormorant Garamond",Georgia,serif!important;font-weight:600;letter-spacing:-.018em}
+nav a,button,.uppercase,.tracking-widest{letter-spacing:.11em}
+/* Rimuove ogni residuo giallo/dorato da testi, icone, fondi e bordi. */
+[class*="text-pbGold"],[class*="text-yellow"],[class*="text-amber"],[class*="text-gold"],[style*="#e4b95e"],[style*="#e7bd67"],[style*="#d4af37"]{color:var(--pb-red-bright)!important}
+[class*="bg-pbGold"],[class*="bg-yellow"],[class*="bg-amber"],[class*="bg-gold"]{background-color:var(--pb-red)!important;color:#fff!important}
+[class*="border-pbGold"],[class*="border-yellow"],[class*="border-amber"],[class*="border-gold"]{border-color:rgba(200,16,46,.65)!important}
+[style*="#e4b95e"],[style*="#e7bd67"],[style*="#d4af37"]{color:var(--pb-red-bright)!important}
+/* Marchio ridisegnato: più presente e nitido anche su mobile. */
+.pb-brand-logo{width:clamp(220px,25vw,300px)!important;height:auto!important;display:block!important;overflow:visible}
+header .pb-brand-logo{width:clamp(220px,25vw,300px)!important}
+.logo-glow{filter:drop-shadow(0 7px 18px rgba(200,16,46,.19))!important}
+@media(max-width:640px){header .pb-brand-logo{width:clamp(214px,64vw,250px)!important}.drawer-brand .pb-brand-logo{width:min(250px,72vw)!important}}
+@media(max-width:380px){header .pb-brand-logo{width:205px!important}}
+/* Eleganza dei controlli: superfici pulite, nessun alone dorato. */
+button:hover,a:hover{transition:all .28s ease}
+:focus-visible{outline-color:var(--pb-red)!important}
+
+
+/* HEADER REFINEMENT — NAV TRASPARENTE, BRAND E CTA MODERNE */
+header nav, header nav::before, header nav::after {
+  background: transparent !important; background-color: transparent !important;
+  box-shadow: none !important; border: 0 !important; filter: none !important;
+}
+header nav { padding:0 !important; border-radius:0 !important; backdrop-filter:none !important; }
+header nav a {
+  background:transparent !important; box-shadow:none !important; border-radius:0 !important;
+  color:#eee9e7 !important; font-weight:700 !important; letter-spacing:.13em !important;
+}
+header nav a.text-pbRed, header nav a[aria-current="page"] { color:#fff !important; }
+
+/* Logo leggibile e protagonista su smartphone */
+header .pb-brand-logo { width:clamp(230px,26vw,310px) !important; height:auto !important; }
+@media(max-width:640px) {
+  header > div { min-height:94px !important; height:94px !important; gap:10px !important; }
+  header .pb-brand-logo { width:clamp(245px,69vw,280px) !important; max-width:calc(100vw - 104px) !important; }
+  header > div > a:first-child { flex:1 1 auto !important; }
+}
+@media(max-width:380px) {
+  header .pb-brand-logo { width:230px !important; max-width:calc(100vw - 100px) !important; }
+}
+
+/* Prenotazione e carrello: look contemporaneo */
+header button[onclick="openBookingModal()"] {
+  color:#f7f2ef !important; background:rgba(255,255,255,.035) !important;
+  border:1px solid rgba(200,16,46,.72) !important; border-radius:999px !important;
+  padding:13px 20px !important; font-size:11px !important; font-weight:700 !important;
+  letter-spacing:.12em !important; box-shadow:none !important;
+  transition:background .25s ease,border-color .25s ease,transform .25s ease !important;
+}
+header button[onclick="openBookingModal()"]:hover {
+  background:rgba(200,16,46,.13) !important; border-color:#e13a50 !important; transform:translateY(-1px);
+}
+header button[onclick="toggleCartDrawer()"] {
+  border-radius:999px !important; background:#c8102e !important; color:#fff !important;
+  border:1px solid rgba(255,255,255,.12) !important;
+  box-shadow:0 8px 24px rgba(200,16,46,.2) !important; letter-spacing:.1em !important;
+}
+#header-cart-badge,#mobile-cart-badge {
+  background:#fff !important; color:#c8102e !important;
+  border:1px solid rgba(200,16,46,.2) !important; font-weight:800 !important;
+  box-shadow:0 2px 8px rgba(0,0,0,.18) !important;
+}
+@media(max-width:1023px) {
+  header button[onclick="toggleCartDrawer()"] {
+    min-width:46px !important; min-height:46px !important; padding:11px !important; border-radius:15px !important;
+  }
+}
+
+
+/* =========================================================
+   FIX DEFINITIVI — LOGO MOBILE, SELECT, PALETTE SOBRIA
+   Questo foglio viene caricato per ultimo in tutte le pagine.
+   ========================================================= */
+:root {
+  --pb-red: #b5122b;
+  --pb-red-bright: #d12a40;
+  --pb-ink: #101112;
+  --pb-panel: #191b1d;
+  --pb-text: #f2f2f1;
+  --pb-muted: #a7aaad;
+  --pb-neutral-line: rgba(255,255,255,.14);
+}
+
+/* Logo: non deve restringersi dentro l'header su smartphone. */
+header > div > a:first-child {
+  display:flex !important;
+  flex:0 0 auto !important;
+  flex-shrink:0 !important;
+  align-items:center !important;
+  width:auto !important;
+  min-width:0 !important;
+}
+header .logo-glow {
+  display:flex !important;
+  flex:0 0 auto !important;
+  width:clamp(220px, 27vw, 300px) !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+}
+header .pb-brand-logo {
+  display:block !important;
+  width:100% !important;
+  max-width:none !important;
+  height:auto !important;
+  min-width:0 !important;
+}
+@media (max-width:1023px) {
+  header > div {
+    display:flex !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    gap:12px !important;
+    min-height:100px !important;
+    height:auto !important;
+  }
+  header > div > a:first-child {
+    flex:0 1 auto !important;
+    width:clamp(205px, 54vw, 270px) !important;
+    max-width:calc(100vw - 150px) !important;
+  }
+  header .logo-glow {
+    width:100% !important;
+  }
+  header .pb-brand-logo {
+    width:100% !important;
+  }
+}
+@media (max-width:480px) {
+  header > div > a:first-child {
+    width:clamp(190px, 53vw, 235px) !important;
+    max-width:calc(100vw - 142px) !important;
+  }
+  header > div { gap:9px !important; padding-left:12px !important; padding-right:12px !important; }
+}
+
+/* Selettori di orario, persone, data e opzioni ordine: stile completo. */
+.booking-select-wrap,
+.pickup-select-wrap,
+.custom-select-wrap { position:relative !important; }
+
+.booking-select,
+#booking-modal select,
+#booking-modal input[type="date"],
+#booking-modal input[type="time"],
+#booking-modal input[type="number"],
+.booking-panel select,
+.booking-panel input,
+.pickup-select,
+.custom-select-trigger,
+.pickup-select-trigger {
+  color:#f2f2f1 !important;
+  background:#1b1d20 !important;
+  border:1px solid rgba(255,255,255,.19) !important;
+  border-radius:9px !important;
+  min-height:52px !important;
+  box-shadow:none !important;
+  font-family:"DM Sans",sans-serif !important;
+  font-size:14px !important;
+}
+.booking-select,
+#booking-modal select,
+.booking-panel select,
+.pickup-select {
+  appearance:none !important;
+  -webkit-appearance:none !important;
+  padding-right:44px !important;
+  color-scheme:dark !important;
+}
+.booking-select-wrap::after,
+#booking-modal .booking-select-wrap::after {
+  border-right:2px solid var(--pb-red-bright) !important;
+  border-bottom:2px solid var(--pb-red-bright) !important;
+}
+.booking-select:hover,
+#booking-modal select:hover,
+.booking-panel select:hover,
+.pickup-select:hover,
+.custom-select-trigger:hover,
+.pickup-select-trigger:hover {
+  border-color:rgba(209,42,64,.8) !important;
+}
+.booking-select:focus,
+#booking-modal select:focus,
+#booking-modal input:focus,
+.booking-panel select:focus,
+.booking-panel input:focus,
+.pickup-select:focus,
+.custom-select-trigger:focus,
+.pickup-select-trigger:focus {
+  outline:none !important;
+  border-color:var(--pb-red-bright) !important;
+  box-shadow:0 0 0 3px rgba(181,18,43,.17) !important;
+}
+select option,
+.booking-select option,
+.pickup-select option,
+#cust-pay option {
+  background:#1b1d20 !important;
+  color:#f2f2f1 !important;
+}
+.custom-select-options,
+.pickup-options {
+  background:#1b1d20 !important;
+  border:1px solid rgba(255,255,255,.17) !important;
+  border-radius:10px !important;
+  box-shadow:0 18px 44px rgba(0,0,0,.48) !important;
+}
+.custom-select-option,
+.pickup-option {
+  color:#e7e8e9 !important;
+  background:transparent !important;
+}
+.custom-select-option:hover,
+.pickup-option:hover,
+.custom-select-option[aria-selected="true"],
+.pickup-option[aria-selected="true"] {
+  color:#fff !important;
+  background:rgba(181,18,43,.2) !important;
+}
+.pickup-select-icon,.pickup-select-chevron,
+.pickup-option[aria-selected="true"] i {
+  color:var(--pb-red-bright) !important;
+}
+
+/* Rimuove definitivamente giallo/oro da Ordina Online e Chi Siamo:
+   superfici antracite, bordi neutri, rosso solo per gli accenti. */
+.text-pbGold,.text-yellow-400,.text-yellow-500,.text-amber-400,
+.text-amber-500,.text-gold,
+[class*="text-pbGold"],[class*="text-yellow"],[class*="text-amber"],
+[class*="text-gold"] {
+  color:#d3d5d7 !important;
+}
+.bg-pbGold,[class*="bg-pbGold"],[class*="bg-yellow"],[class*="bg-amber"],
+[class*="bg-gold"] {
+  background:#24272a !important;
+  color:#f3f3f2 !important;
+}
+.border-pbGold,[class*="border-pbGold"],[class*="border-yellow"],
+[class*="border-amber"],[class*="border-gold"] {
+  border-color:rgba(255,255,255,.17) !important;
+}
+[style*="#e8bd70"],[style*="#e4b95e"],[style*="#e7bd67"],
+[style*="#d4af37"],[style*="212,175,55"],[style*="230,189,104"] {
+  color:#d3d5d7 !important;
+  border-color:rgba(255,255,255,.17) !important;
+}
+main section:first-child h1 span {
+  background-image:linear-gradient(100deg,#f0eeee 0%,#c9cacc 55%,#d12a40 100%) !important;
+}
+main section:first-child .glass-panel,
+main section:first-child .max-w-md > div:last-child,
+.glass-panel-hover:hover {
+  border-color:rgba(255,255,255,.14) !important;
+}
+footer {
+  border-top-color:rgba(255,255,255,.12) !important;
+}
+:focus-visible { outline-color:var(--pb-red-bright) !important; }
+
+
+/* FINAL BRAND OVERRIDES: SOLO BIANCO E ROSSO, LOGO MOBILE LEGGIBILE */
+:root {
+  --pbGold:#ffffff !important;
+  --pbGoldBright:#ffffff !important;
+  --pb-gold:#ffffff !important;
+  --pb-gold-bright:#ffffff !important;
+}
+
+/* Elimina residui oro/giallo da testi, bordi, icone e controlli. */
+[class*="text-pbGold"], [class*="text-yellow"], [class*="text-amber"],
+[class*="text-gold"], [style*="#e8bd70"], [style*="#e4b95e"],
+[class*="border-pbGold"], [class*="border-yellow"], [class*="border-amber"],
+[class*="border-gold"] {
+  color:#fff !important;
+  border-color:#fff !important;
+}
+[class*="bg-pbGold"], [class*="bg-yellow"], [class*="bg-amber"],
+[class*="bg-gold"] {
+  background:#b5122b !important;
+  color:#fff !important;
+}
+button, a, input, select, textarea, .custom-select-trigger,
+.pickup-select-trigger {
+  accent-color:#c8102e;
+}
+input:focus, select:focus, textarea:focus,
+.custom-select-trigger:focus, .pickup-select-trigger:focus {
+  border-color:#c8102e !important;
+  box-shadow:0 0 0 3px rgba(200,16,46,.16) !important;
+}
+
+/* Logo: target diretto sull'SVG per vincere le vecchie regole mobile in conflitto. */
+header a.group .logo-glow {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  width:280px !important;
+  max-width:100% !important;
+  flex:0 0 auto !important;
+}
+header a.group svg.pb-brand-logo {
+  display:block !important;
+  width:280px !important;
+  max-width:100% !important;
+  height:auto !important;
+  min-width:0 !important;
+  flex:0 0 auto !important;
+  overflow:visible !important;
+}
+@media (max-width:1023px) {
+  header > div {
+    min-height:108px !important;
+    height:auto !important;
+    padding-left:14px !important;
+    padding-right:14px !important;
+    gap:10px !important;
+  }
+  header > div > a.group {
+    width:clamp(205px, 58vw, 255px) !important;
+    max-width:calc(100vw - 145px) !important;
+    flex:0 1 auto !important;
+    min-width:0 !important;
+  }
+  header a.group .logo-glow,
+  header a.group svg.pb-brand-logo {
+    width:100% !important;
+    max-width:100% !important;
+  }
+}
+@media (max-width:420px) {
+  header > div > a.group {
+    width:clamp(190px, 57vw, 225px) !important;
+    max-width:calc(100vw - 138px) !important;
+  }
+}
+@media (max-width:360px) {
+  header > div > a.group {
+    width:190px !important;
+    max-width:calc(100vw - 132px) !important;
+  }
+}
+
+
+/* PATCH NOVEMBRE 2026 — identità Pizza Boy: nero, rosso e bianco */
+:root { --pb-gold:#c8102e !important; --pb-cream:#fff !important; }
+html,body { background-color:#080808 !important; }
+[class*="gold"],[class*="Gold"],[class*="yellow"],[class*="Yellow"],
+[class*="amber"],[class*="Amber"] {
+  color:#fff !important; border-color:#c8102e !important;
+  --tw-ring-color:#c8102e !important;
+}
+[class*="bg-yellow"],[class*="bg-amber"],[class*="bg-gold"] { background:#c8102e !important; }
+[class*="text-yellow"],[class*="text-amber"],[class*="text-gold"] { color:#fff !important; }
+[class*="border-yellow"],[class*="border-amber"],[class*="border-gold"] { border-color:#c8102e !important; }
+[class*="ring-yellow"],[class*="ring-amber"],[class*="ring-gold"] { --tw-ring-color:#c8102e !important; }
+.section-heading::before,.section-heading::after { background:#c8102e !important; }
+.reservation-form input,.reservation-form select,.reservation-form textarea {
+  background:#151515 !important; color:#fff !important; border-color:rgba(255,255,255,.18) !important;
+}
+.reservation-form input:focus,.reservation-form select:focus,.reservation-form textarea:focus {
+  border-color:#c8102e !important;
+}
+.reservation-form label { color:#eee !important; }
+
+
+/* =========================================================
+   MOBILE REDESIGN + BRAND LOCK — Pizza Boy
+   Nero / rosso / bianco. Layout mobile riprogettato.
+   ========================================================= */
+:root{
+  --pb-red:#e1263b !important;
+  --pb-red-bright:#ff3652 !important;
+  --pb-gold:#e1263b !important;
+  --pb-cream:#fff !important;
+  --pb-line:rgba(225,38,59,.72) !important;
+}
+html,body{max-width:100%;overflow-x:clip!important}
+a,button,input,select,textarea{accent-color:#e1263b}
+input,select,textarea,
+.reservation-form input,.reservation-form select,.reservation-form textarea,
+.form-field input,.form-field select,.form-field textarea,
+.custom-select-trigger,.pickup-select-trigger{
+  color:#fff!important;background-color:#171719!important;
+  border:1px solid #c8102e!important;border-radius:12px!important;
+  box-shadow:none!important;
+}
+select{
+  color-scheme:dark!important;appearance:none!important;-webkit-appearance:none!important;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23ff3652' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")!important;
+  background-repeat:no-repeat!important;background-position:right 16px center!important;
+  padding-right:48px!important;
+}
+select option{background:#171719!important;color:#fff!important}
+select option:checked,select option:hover{background:#c8102e!important;color:#fff!important}
+input:focus,select:focus,textarea:focus,
+.reservation-form input:focus,.reservation-form select:focus,.reservation-form textarea:focus{
+  outline:none!important;border-color:#ff3652!important;
+  box-shadow:0 0 0 3px rgba(225,38,59,.22)!important;
+}
+input::placeholder,textarea::placeholder{color:#aaa!important}
+:where(.glass-panel,.glass-panel-hover,.booking-panel,.reservation-card,.order-card,
+.delivery-card,.pickup-card,.about-value-card,.form-panel,.order-panel){
+  border-color:rgba(225,38,59,.7)!important;
+}
+:where(.rounded-full,.circle,.step-number,.icon-circle,.feature-icon){
+  border-color:#e1263b!important;
+}
+[class*="border-"],hr,header,footer,
+.section-divider,.section-line,.title-line,.heading-line{
+  border-color:rgba(225,38,59,.72)!important;
+}
+[class*="text-pbGold"],[class*="text-yellow"],[class*="text-amber"],
+[class*="text-gold"],[style*="color: #d8c9b7"],[style*="color:#d8c9b7"]{
+  color:#fff!important;
+}
+[class*="bg-yellow"],[class*="bg-amber"],[class*="bg-gold"]{background:#c8102e!important}
+[class*="border-yellow"],[class*="border-amber"],[class*="border-gold"]{border-color:#e1263b!important}
+.about-page,.order-page{--about-gold:#e1263b!important;--op-gold:#e1263b!important;--pb-gold:#e1263b!important}
+.about-kicker,.about-eyebrow,.about-section-kicker,.eyebrow,.section-kicker{color:#ff5268!important}
+header{border-bottom:1px solid rgba(225,38,59,.65)!important}
+button:focus-visible,a:focus-visible{outline:2px solid #ff3652!important;outline-offset:3px!important}
+
+@media(max-width:767px){
+  body{font-size:15px!important;line-height:1.6!important}
+  main{width:100%!important;max-width:100%!important;overflow:clip!important}
+  main section{padding-left:18px!important;padding-right:18px!important}
+  main section:first-child{min-height:0!important}
+  header{position:sticky!important;top:0!important;backdrop-filter:blur(18px)!important;background:rgba(8,8,8,.94)!important}
+  header>div{min-height:76px!important;height:auto!important;padding:10px 14px!important;gap:8px!important}
+  header>div>a.group{width:min(62vw,225px)!important;max-width:calc(100vw - 125px)!important}
+  header a.group .logo-glow,header a.group svg.pb-brand-logo{width:100%!important}
+  header nav{gap:12px!important}
+  h1{font-size:clamp(42px,12vw,66px)!important;line-height:.98!important}
+  h2{font-size:clamp(34px,9vw,48px)!important}
+  h3{font-size:clamp(25px,7vw,34px)!important}
+  p{font-size:14px!important;line-height:1.7!important}
+  main .grid{grid-template-columns:minmax(0,1fr)!important}
+  main [class*="grid-cols-"]{grid-template-columns:minmax(0,1fr)!important}
+  main .flex-row{flex-wrap:wrap!important}
+  main .max-w-7xl,main .max-w-6xl,main .max-w-5xl,main .max-w-4xl,
+  main .max-w-3xl,main .max-w-2xl{max-width:100%!important}
+  .order-hero,.about-hero{min-height:0!important;padding-top:88px!important;padding-bottom:72px!important}
+  .order-hero .container,.about-hero-inner{padding:30px 18px 42px!important}
+  .about-title{font-size:clamp(48px,14vw,76px)!important}
+  .about-hero-image{background-position:center!important;opacity:.3!important}
+  .delivery-card,.pickup-card,.order-card,.glass-panel,.glass-panel-hover,
+  .booking-panel,.reservation-card,.form-panel,.order-panel{
+    width:100%!important;max-width:100%!important;min-width:0!important;
+    padding:22px!important;border-radius:16px!important;
+  }
+  .form-field,.reservation-form .form-field{width:100%!important;min-width:0!important}
+  .reservation-form,.reservation-grid,.order-form,.booking-form{
+    display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:14px!important;
+  }
+  input,select,textarea,.custom-select-trigger,.pickup-select-trigger{
+    width:100%!important;min-width:0!important;min-height:54px!important;
+    font-size:16px!important;padding:13px 15px!important;
+  }
+  textarea{min-height:110px!important}
+  button[type="submit"],.reservation-submit,.pb-primary-cta,.pb-secondary-cta{
+    width:100%!important;min-height:54px!important;justify-content:center!important;
+  }
+  .pickup-options{max-height: min(45vh,340px)!important;overflow-y:auto!important}
+  .pickup-option{min-height:46px!important;font-size:14px!important}
+  footer{padding-left:18px!important;padding-right:18px!important}
+  img,video,iframe{max-width:100%!important}
+}
+@media(max-width:390px){
+  header>div{padding-left:10px!important;padding-right:10px!important}
+  header>div>a.group{max-width:calc(100vw - 112px)!important}
+  main section{padding-left:14px!important;padding-right:14px!important}
+  .delivery-card,.pickup-card,.order-card,.glass-panel,.booking-panel{padding:18px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+
+
+/* =========================================================
+   PIZZA BOY — FINAL RED / BLACK PASS
+   Override mirati per Ordina Online, Prenota un tavolo e Chi Siamo.
+   ========================================================= */
+:root { --pb-red:#e1263b; --pb-red-bright:#ff3654; --pb-gold:#e1263b; --op-gold:#e1263b; --about-gold:#e1263b; }
+
+/* Ordina online: stepper, linea e indicatori circolari */
+.order-page .howto-line,
+.order-page .order-howto::before,
+.order-page .order-howto::after {
+  background:linear-gradient(90deg,transparent,#e1263b 12%,#e1263b 88%,transparent) !important;
+  border-color:#e1263b !important;
+}
+.order-page .howto-step b,
+.order-page .order-howto b,
+.order-page .reservation-perks i,
+.order-page .confirmation-icon,
+.order-page .choice-icon,
+.order-page .form-card-top > i,
+.order-page .reservation-stamp,
+.order-page .reservation-stamp i {
+  color:#ff3654 !important;
+  border-color:#e1263b !important;
+}
+.order-page .howto-step b { background:#0b0909 !important; box-shadow:0 0 0 4px rgba(225,38,59,.08); }
+.order-page .order-choice-card,
+.order-page .reservation-form-card,
+.order-page .reservation-section,
+.order-page .info-strip,
+.order-page .order-cart-note,
+.order-page .order-choice-card::before,
+.order-page .order-choice-card::after {
+  border-color:rgba(225,38,59,.72) !important;
+}
+.order-page .choice-link,
+.order-page .text-link,
+.order-page .reservation-perks i,
+.order-page .form-card-top span,
+.order-page .form-legal i,
+.order-page .info-strip span,
+.order-page .info-strip > a,
+.order-page .order-cart-note button,
+.order-page .order-trust-row i { color:#ff3654 !important; }
+.order-page .choice-link,
+.order-page .text-link { border-bottom-color:rgba(225,38,59,.8) !important; }
+.order-page [style*="230,189,104"],
+.order-page [style*="230, 189, 104"],
+.order-page [style*="212,175,55"],
+.order-page [style*="212, 175, 55"] { border-color:#e1263b !important; color:#ff3654 !important; background-color:rgba(225,38,59,.08) !important; }
+.order-page .order-choice-card,
+.order-page .reservation-form-card { outline-color:#e1263b !important; }
+
+/* Tutti i campi e le tendine: nero, testo bianco, bordo rosso.
+   Le option sono scure nei browser che permettono di stilizzarle. */
+.order-page input:not([type=checkbox]):not([type=radio]),
+.order-page select,
+.order-page textarea,
+.order-page .booking-select,
+.order-page .custom-select-trigger,
+.order-page .pickup-select-trigger {
+  color:#fff !important; background-color:#171717 !important;
+  border:1px solid #c8102e !important; color-scheme:dark !important;
+}
+.order-page select,
+.order-page .booking-select {
+  appearance:none !important; -webkit-appearance:none !important;
+  background-image:linear-gradient(45deg,transparent 50%,#ff3654 50%),linear-gradient(135deg,#ff3654 50%,transparent 50%) !important;
+  background-position:calc(100% - 19px) 50%,calc(100% - 13px) 50% !important;
+  background-size:6px 6px,6px 6px !important; background-repeat:no-repeat !important;
+  padding-right:42px !important;
+}
+.order-page option,
+.order-page select option,
+.order-page .custom-select-options,
+.order-page .pickup-options {
+  background:#141414 !important; color:#fff !important;
+}
+.order-page .custom-select-options,
+.order-page .pickup-options { border:1px solid #c8102e !important; box-shadow:0 18px 45px rgba(0,0,0,.72),0 0 24px rgba(225,38,59,.14) !important; }
+.order-page .custom-select-option { color:#f5f5f5 !important; background:transparent !important; }
+.order-page .custom-select-option:hover,
+.order-page .custom-select-option:focus-visible { color:#fff !important; background:rgba(225,38,59,.2) !important; }
+.order-page .custom-select-option[aria-selected=true] { color:#fff !important; background:#c8102e !important; }
+.order-page .custom-select-trigger .custom-chevron,
+.order-page .pickup-select-chevron { color:#ff3654 !important; }
+.order-page input:focus,.order-page select:focus,.order-page textarea:focus,
+.order-page .custom-select-trigger:focus-visible,
+.order-page .pickup-select-trigger:focus-visible {
+  border-color:#ff3654 !important; box-shadow:0 0 0 3px rgba(225,38,59,.2) !important; outline:none !important;
+}
+.order-page .form-field label { color:#f0eeee !important; }
+.order-page .reservation-form-card,
+.order-page .order-choice-card { background-color:#151313 !important; }
+
+/* Chi siamo: identità nuova, editoriale, rigorosamente rosso/nero/bianco. */
+.about-page { --about-red:#e1263b !important; --about-gold:#e1263b !important; background:#080808 !important; color:#f7f4f2 !important; }
+.about-page .about-hero { min-height:min(820px,92vh); background:#080808 !important; border-bottom:1px solid #c8102e !important; }
+.about-page .about-hero-image { opacity:.48 !important; filter:grayscale(.48) contrast(1.15) !important; }
+.about-page .about-hero-vignette { background:linear-gradient(90deg,rgba(5,5,5,.98) 0%,rgba(5,5,5,.83) 48%,rgba(5,5,5,.34) 100%),linear-gradient(0deg,#080808 0%,transparent 48%) !important; }
+.about-page .about-kicker,
+.about-page .about-text-link,
+.about-page .about-hero-caption { color:#f5f1ef !important; }
+.about-page .about-kicker-line { background:#e1263b !important; box-shadow:0 0 16px rgba(225,38,59,.45) !important; }
+.about-page .about-title em,
+.about-page .about-story-copy h2 em,
+.about-page .about-centered-heading h2 em,
+.about-page .about-last-inner h2 em { color:#ff3654 !important; }
+.about-page .about-cta { border:1px solid #e1263b !important; color:#fff !important; background:rgba(200,16,46,.1) !important; }
+.about-page .about-cta i,
+.about-page .about-text-link i { color:#ff3654 !important; }
+.about-page .about-cta:hover { background:#c8102e !important; border-color:#ff3654 !important; }
+.about-page .about-story { background:radial-gradient(ellipse at 82% 42%,rgba(200,16,46,.13),transparent 42%),#090909 !important; }
+.about-page .about-values { background:linear-gradient(180deg,#090909,#101010 55%,#090909) !important; }
+.about-page .about-photo-main,
+.about-page .about-photo-detail { border:1px solid rgba(225,38,59,.85) !important; box-shadow:0 25px 80px rgba(0,0,0,.55),0 0 35px rgba(200,16,46,.09) !important; }
+.about-page .about-photo-main img,
+.about-page .about-photo-detail img { filter:grayscale(.22) saturate(.82) contrast(1.12) !important; }
+.about-page .about-photo-stamp { border:1px solid #e1263b !important; background:#0b0b0b !important; color:#fff !important; }
+.about-page .about-photo-stamp strong,
+.about-page .about-photo-stamp i { color:#ff3654 !important; }
+.about-page .about-value-card { background:linear-gradient(145deg,#171313,#0d0d0d) !important; border:1px solid rgba(225,38,59,.58) !important; box-shadow:0 18px 50px rgba(0,0,0,.28) !important; }
+.about-page .about-value-number { color:rgba(225,38,59,.55) !important; }
+.about-page .about-value-icon { color:#ff3654 !important; border:1px solid #c8102e !important; background:rgba(200,16,46,.1) !important; }
+.about-page .about-card-rule { background:#e1263b !important; }
+.about-page .about-manifesto { background:#0b0909 !important; border-top:1px solid #c8102e !important; border-bottom:1px solid #c8102e !important; }
+.about-page .about-manifesto-bg { opacity:.18 !important; filter:grayscale(1) contrast(1.2) !important; }
+.about-page .about-manifesto blockquote em { color:#ff3654 !important; }
+.about-page .about-last-cta { background:radial-gradient(ellipse at 85% 50%,rgba(200,16,46,.17),transparent 42%),#090909 !important; }
+.about-page .about-last-actions a { border-color:#c8102e !important; }
+.about-page [class*="gold"],.about-page [class*="Gold"] { color:#fff !important; border-color:#e1263b !important; }
+.about-page .about-index { color:#ff3654 !important; }
+
+@media(max-width:700px) {
+ .about-page .about-hero { min-height:690px !important; }
+ .about-page .about-hero-inner { padding-top:110px !important; padding-bottom:110px !important; }
+ .about-page .about-title { font-size:clamp(54px,14vw,82px) !important; }
+ .about-page .section-pad { padding:76px 0 !important; }
+ .about-page .about-story-grid { grid-template-columns:1fr !important; gap:34px !important; }
+ .about-page .about-story-visual { min-height:390px !important; }
+ .about-page .about-photo-main { inset:0 5% 8% 0 !important; }
+ .about-page .about-photo-detail { width:42% !important; height:42% !important; }
+ .about-page .about-value-grid { grid-template-columns:1fr !important; gap:15px !important; }
+ .about-page .about-value-card { padding:25px !important; }
+ .about-page .about-manifesto blockquote { font-size:clamp(36px,10vw,58px) !important; }
+ .about-page .about-last-inner { display:flex !important; flex-direction:column !important; gap:28px !important; }
+ .about-page .about-last-actions { width:100% !important; display:grid !important; gap:12px !important; }
+ .about-page .about-last-actions a { width:100% !important; justify-content:center !important; }
+}
+
+/* =========================================================
+   FINAL MOBILE POLISH — compact controls + repaired sidebar
+   ========================================================= */
+@media (max-width: 767px) {
+  /* Prenotazione: proporzioni più equilibrate e campi uniformi */
+  .order-page .reservation-form-card,
+  .order-page .reservation-section,
+  #booking-modal .booking-panel {
+    width:100% !important;
+    max-width:100% !important;
+    box-sizing:border-box !important;
+  }
+  .order-page .reservation-form-card { padding:clamp(18px,5vw,25px) !important; }
+  .order-page .reservation-form-card h2,
+  .order-page .reservation-form-card h3 { font-size:clamp(23px,6vw,30px) !important; line-height:1.12 !important; }
+  .order-page .reservation-form-card p { font-size:13px !important; line-height:1.55 !important; }
+  .order-page .reservation-form-card label { font-size:10px !important; letter-spacing:.1em !important; }
+  .order-page .reservation-form-card input,
+  .order-page .reservation-form-card select,
+  .order-page .reservation-form-card textarea,
+  .order-page .booking-select,
+  .order-page .custom-select-trigger,
+  .order-page .pickup-select-trigger {
+    width:100% !important; min-width:0 !important; min-height:48px !important;
+    height:48px !important; box-sizing:border-box !important;
+    padding:0 13px !important; font-size:14px !important; border-radius:8px !important;
+  }
+  .order-page .custom-select-options,
+  .order-page .pickup-options,
+  .order-page .booking-custom-select .custom-select-options {
+    max-height:min(190px,34dvh) !important;
+    overflow-y:auto !important; overscroll-behavior:contain !important;
+    border-radius:9px !important;
+  }
+  .order-page .custom-select-option,
+  .order-page .pickup-option,
+  .order-page .booking-custom-select .custom-select-option {
+    min-height:42px !important; padding:10px 12px !important; font-size:13px !important;
+  }
+  .order-page .reservation-form-card button[type=submit],
+  .order-page .reservation-submit { min-height:49px !important; font-size:11px !important; }
+
+  /* Sidebar mobile: pannello ancorato al bordo, larghezza corretta e scroll interno */
+  #mobile-nav-drawer {
+    position:fixed !important;
+    top:0 !important; bottom:0 !important; left:0 !important; right:auto !important;
+    width:min(326px, calc(100vw - 34px)) !important;
+    max-width:calc(100vw - 34px) !important;
+    height:100dvh !important; max-height:100dvh !important;
+    min-height:0 !important; box-sizing:border-box !important;
+    padding:calc(20px + env(safe-area-inset-top)) 20px calc(20px + env(safe-area-inset-bottom)) !important;
+    display:flex !important; flex-direction:column !important;
+    justify-content:flex-start !important; gap:24px !important;
+    overflow-x:hidden !important; overflow-y:auto !important;
+    overscroll-behavior:contain !important;
+    background:linear-gradient(160deg,#171112 0%,#090909 58%,#050505 100%) !important;
+    border-right:1px solid rgba(225,38,59,.55) !important;
+    border-top:0 !important; border-bottom:0 !important; border-left:0 !important;
+    border-radius:0 18px 18px 0 !important;
+    z-index:200 !important;
+    transform:translate3d(-105%,0,0) !important;
+    transition:transform .32s cubic-bezier(.2,.8,.2,1) !important;
+    visibility:visible !important;
+  }
+  #mobile-nav-drawer.is-open { transform:translate3d(0,0,0) !important; }
+  #mobile-nav-drawer > div:first-child {
+    width:100% !important; flex:0 0 auto !important;
+    display:flex !important; align-items:center !important;
+    justify-content:space-between !important; gap:12px !important;
+    padding:0 0 17px !important; border-bottom:1px solid rgba(255,255,255,.12) !important;
+  }
+  #mobile-nav-drawer .drawer-brand { min-width:0 !important; min-height:48px !important; }
+  #mobile-nav-drawer .drawer-brand .pb-brand-logo { width:clamp(155px,52vw,190px) !important; max-width:100% !important; }
+  #mobile-nav-drawer > div:first-child button {
+    flex:0 0 42px !important; width:42px !important; height:42px !important;
+    display:grid !important; place-items:center !important; padding:0 !important;
+    border:1px solid rgba(225,38,59,.55) !important; border-radius:9px !important;
+    color:#fff !important; font-size:27px !important;
+  }
+  #mobile-nav-drawer nav {
+    display:flex !important; flex:1 0 auto !important; flex-direction:column !important;
+    justify-content:center !important; gap:8px !important; margin:0 !important;
+    text-align:left !important;
+  }
+  #mobile-nav-drawer nav a {
+    display:flex !important; align-items:center !important; width:100% !important;
+    min-height:48px !important; box-sizing:border-box !important;
+    padding:12px 13px !important; margin:0 !important;
+    border:1px solid rgba(255,255,255,.09) !important; border-radius:9px !important;
+    background:rgba(255,255,255,.035) !important; color:#eee !important;
+    font-size:11px !important; line-height:1.3 !important;
+    letter-spacing:.12em !important; font-weight:800 !important;
+    transform:none !important;
+  }
+  #mobile-nav-drawer nav a:first-child,
+  #mobile-nav-drawer nav a:hover,
+  #mobile-nav-drawer nav a:focus-visible {
+    border-color:rgba(225,38,59,.65) !important;
+    background:rgba(200,16,46,.13) !important; color:#fff !important;
+  }
+  #mobile-nav-drawer > div:last-child {
+    flex:0 0 auto !important; width:100% !important;
+    margin-top:auto !important; padding:16px 0 0 !important;
+    border-top:1px solid rgba(255,255,255,.12) !important;
+  }
+  #mobile-nav-drawer > div:last-child button {
+    width:100% !important; min-height:49px !important; padding:12px !important;
+    border:1px solid #e1263b !important; border-radius:9px !important;
+    font-size:10px !important; letter-spacing:.12em !important;
+  }
+}
+@media (max-width:380px) {
+  #mobile-nav-drawer { width:min(300px,calc(100vw - 28px)) !important; max-width:calc(100vw - 28px) !important; padding-left:16px !important; padding-right:16px !important; }
+  .order-page .reservation-form-card { padding:16px !important; }
+  .order-page .reservation-form-card input,
+  .order-page .reservation-form-card select,
+  .order-page .custom-select-trigger,
+  .order-page .pickup-select-trigger { min-height:46px !important; height:46px !important; }
+}
+@media (prefers-reduced-motion:reduce) {
+  #mobile-nav-drawer { transition:none !important; }
+}
+
+
+/* FINAL FIX 2026-11-14: equal compact booking controls + iOS 26 inspired full-screen mobile navigation */
+@media (max-width: 767px) {
+  /* Keep every reservation control on the same compact rhythm. */
+  #booking-modal .booking-fields,
+  #booking-modal .booking-fields-two,
+  #booking-modal .booking-field,
+  #booking-modal .booking-input-shell,
+  #booking-modal .booking-custom-select,
+  #booking-modal .custom-select-wrap { width:100% !important; min-width:0 !important; box-sizing:border-box !important; }
+  #booking-modal .booking-input-shell input,
+  #booking-modal .booking-custom-select .custom-select-trigger,
+  #booking-modal .custom-select-trigger {
+    display:flex !important; align-items:center !important;
+    width:100% !important; height:48px !important; min-height:48px !important; max-height:48px !important;
+    box-sizing:border-box !important; padding:0 13px !important;
+    border-radius:8px !important; font-size:16px !important; line-height:1 !important;
+  }
+  #booking-modal .booking-input-shell input { padding-left:41px !important; }
+  #booking-modal .booking-input-shell > i { left:13px !important; font-size:13px !important; }
+  #booking-modal .booking-custom-select .custom-select-options { top:calc(100% + 5px) !important; max-height: min(176px, 30dvh) !important; padding:4px !important; }
+  #booking-modal .booking-custom-select .custom-select-option { min-height:38px !important; height:38px !important; padding:8px 10px !important; font-size:14px !important; }
+
+  /* Full-screen translucent glass navigation, inspired by iOS 26. */
+  #mobile-nav-drawer {
+    position:fixed !important; inset:0 !important;
+    width:100vw !important; max-width:100vw !important; height:100dvh !important;
+    min-height:100dvh !important; max-height:100dvh !important;
+    box-sizing:border-box !important; margin:0 !important;
+    padding:calc( max(24px, env(safe-area-inset-top)) + 12px ) 24px calc( max(22px, env(safe-area-inset-bottom)) + 14px ) !important;
+    border:0 !important; border-radius:0 !important;
+    background:linear-gradient(145deg,rgba(36,20,24,.88),rgba(10,10,12,.92) 48%,rgba(4,4,6,.96)) !important;
+    -webkit-backdrop-filter:blur(34px) saturate(180%) !important;
+    backdrop-filter:blur(34px) saturate(180%) !important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.13) !important;
+    display:flex !important; flex-direction:column !important; justify-content:flex-start !important;
+    gap:0 !important; overflow-x:hidden !important; overflow-y:auto !important;
+    overscroll-behavior:contain !important; z-index:9999 !important;
+    transform:translate3d(-102%,0,0) !important;
+    transition:transform .42s cubic-bezier(.22,1,.36,1) !important;
+    visibility:visible !important;
+  }
+  #mobile-nav-drawer.is-open { transform:translate3d(0,0,0) !important; }
+  #mobile-nav-drawer::before {
+    content:""; position:absolute; inset:0; pointer-events:none; z-index:-1;
+    background:radial-gradient(ellipse at 100% 0%,rgba(225,38,59,.2),transparent 48%),linear-gradient(180deg,rgba(255,255,255,.045),transparent 35%);
+  }
+  #mobile-nav-drawer > div:first-child {
+    flex:0 0 auto !important; width:100% !important; min-height:68px !important;
+    padding:0 0 18px !important; margin:0 0 30px !important;
+    border-bottom:1px solid rgba(255,255,255,.13) !important;
+    display:flex !important; align-items:center !important; justify-content:space-between !important;
+  }
+  #mobile-nav-drawer .drawer-brand .pb-brand-logo { width:clamp(158px,48vw,190px) !important; height:auto !important; }
+  #mobile-nav-drawer > div:first-child button {
+    width:46px !important; height:46px !important; flex:0 0 46px !important;
+    display:grid !important; place-items:center !important; padding:0 !important;
+    border:1px solid rgba(255,255,255,.2) !important; border-radius:50% !important;
+    background:rgba(255,255,255,.09) !important; color:#fff !important;
+    -webkit-backdrop-filter:blur(18px) !important; backdrop-filter:blur(18px) !important;
+    font-size:29px !important; line-height:1 !important;
+  }
+  #mobile-nav-drawer nav {
+    flex:1 0 auto !important; width:100% !important; margin:0 !important;
+    display:flex !important; flex-direction:column !important; justify-content:center !important;
+    gap:12px !important; text-align:left !important;
+  }
+  #mobile-nav-drawer nav a {
+    width:100% !important; min-height:58px !important; box-sizing:border-box !important;
+    display:flex !important; align-items:center !important; padding:0 18px !important; margin:0 !important;
+    border:1px solid rgba(255,255,255,.11) !important; border-radius:17px !important;
+    background:linear-gradient(135deg,rgba(255,255,255,.105),rgba(255,255,255,.035)) !important;
+    color:rgba(255,255,255,.9) !important; font-size:13px !important; font-weight:750 !important;
+    letter-spacing:.13em !important; text-align:left !important; transform:none !important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 8px 22px rgba(0,0,0,.13) !important;
+    -webkit-backdrop-filter:blur(16px) !important; backdrop-filter:blur(16px) !important;
+  }
+  #mobile-nav-drawer nav a:first-child,
+  #mobile-nav-drawer nav a:hover,
+  #mobile-nav-drawer nav a:focus-visible {
+    border-color:rgba(225,38,59,.7) !important;
+    background:linear-gradient(135deg,rgba(200,16,46,.28),rgba(255,255,255,.055)) !important;
+    color:#fff !important;
+  }
+  #mobile-nav-drawer > div:last-child {
+    flex:0 0 auto !important; width:100% !important; margin:28px 0 0 !important;
+    padding:20px 0 0 !important; border-top:1px solid rgba(255,255,255,.13) !important;
+  }
+  #mobile-nav-drawer > div:last-child button {
+    width:100% !important; min-height:56px !important; border:1px solid rgba(255,75,95,.9) !important;
+    border-radius:16px !important; background:linear-gradient(135deg,#e1263b,#a90020) !important;
+    color:#fff !important; font-size:11px !important; letter-spacing:.13em !important;
+    box-shadow:0 10px 28px rgba(200,16,46,.28),inset 0 1px 0 rgba(255,255,255,.2) !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #mobile-nav-drawer { transition:none !important; }
+}
+
+/* Schede Ordina Online: altezza uguale e pulsanti allineati. */
+.order-page .order-choice-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:stretch!important;grid-auto-rows:1fr!important}
+.order-page .order-choice-card{display:flex!important;flex-direction:column!important;height:100%!important;min-height:405px!important;box-sizing:border-box!important}
+.order-page .order-choice-card .choice-link{margin-top:auto!important;align-self:flex-start!important}
+@media(max-width:640px){.order-page .order-choice-grid{grid-template-columns:minmax(0,1fr)!important}.order-page .order-choice-card{min-height:365px!important}}
+
+
+/* Footer responsive: navigazione rapida e link legali sempre ordinati su mobile. */
+@media (max-width: 767px) {
+  footer .footer-quick-nav ul {
+    display:flex !important; flex-direction:column !important; align-items:stretch !important;
+    gap:12px !important; width:100% !important; margin:0 !important; padding:0 !important;
+  }
+  footer .footer-quick-nav ul li {
+    display:block !important; width:100% !important; margin:0 !important;
+    text-align:left !important; transform:none !important;
+  }
+  footer .footer-quick-nav ul li a,
+  footer .footer-quick-nav ul li button {
+    display:inline-flex !important; align-items:center !important; min-height:24px !important;
+    padding:0 !important; margin:0 !important; text-align:left !important;
+    white-space:normal !important; transform:none !important;
+  }
+  footer .footer-legal-links {
+    display:flex !important; flex-direction:column !important; align-items:center !important;
+    justify-content:center !important; gap:14px !important; width:100% !important;
+    margin:22px 0 0 !important; text-align:center !important;
+  }
+  footer .footer-legal-links a {
+    display:block !important; line-height:1.5 !important; white-space:normal !important;
+    text-align:center !important; margin:0 !important; transform:none !important;
+  }
+}

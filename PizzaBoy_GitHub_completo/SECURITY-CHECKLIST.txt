@@ -1,0 +1,27 @@
+PIZZA BOY — AGGIORNAMENTO SICUREZZA
+===================================
+
+COSA RAFFORZA QUESTO AGGIORNAMENTO
+- RLS attiva su tabelle admin, ordini e prenotazioni.
+- I visitatori possono solo inviare ordini/prenotazioni: non possono leggerli o modificarli.
+- Solo gli UID presenti in pb_admin_users possono leggere il gestionale.
+- L'admin può aggiornare solo la colonna status, non il contenuto degli ordini.
+- Limite dimensione dei payload e controlli sui campi obbligatori.
+- Stati ammessi limitati a valori previsti.
+- Funzione di verifica admin con search_path fisso.
+- Messaggi di login generici e pausa temporanea dopo 5 tentativi nel browser.
+
+COSA DEVI FARE
+1. Fai una copia di backup del progetto attuale.
+2. In Supabase > SQL Editor > New query, incolla TUTTO supabase-setup.sql aggiornato e premi Run.
+   Lo script è pensato per essere rieseguito sul database già creato.
+3. Pubblica tutti i file aggiornati mantenendo la struttura delle cartelle.
+4. Verifica un ordine di prova, una prenotazione e il cambio di stato dal gestionale.
+5. In Supabase Authentication, usa una password unica e lunga. Attiva MFA (autenticazione a più fattori) se disponibile per l'account.
+6. Non condividere mai password, Secret key o service_role key. La Publishable key nel frontend è pubblica per definizione.
+
+LIMITI IMPORTANTI
+- Il blocco dopo 5 tentativi in JavaScript è solo un deterrente UI: non sostituisce rate limiting server-side.
+- Per un sito pubblico con ordini reali, aggiungi CAPTCHA/Turnstile e invio tramite Edge Function con rate limit server-side.
+- Non raccogliere pagamenti con questa versione: il metodo pagamento registrato non equivale a un pagamento incassato.
+- RLS protegge i dati nel database; non rende il sito immune da spam o attacchi volumetrici.
